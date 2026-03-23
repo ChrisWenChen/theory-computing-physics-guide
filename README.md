@@ -1,41 +1,45 @@
-# Website
+# From Zero: Environment Setup and Software Installation Guide for Theoretical/Computational Physics
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![GitHub Pages](https://github.com/ChrisWenChen/theory-computing-physics-guide/actions/workflows/deploy.yml/badge.svg)](https://github.com/ChrisWenChen/theory-computing-physics-guide/actions/workflows/deploy.yml)
 
-## Installation
+A comprehensive tutorial on environment setup and software installation for theoretical/computational physics.
 
-```bash
-yarn
-```
+Read online: [https://ChrisWenChen.github.io/theory-computing-physics-guide/](https://ChrisWenChen.github.io/theory-computing-physics-guide/)
+
+## Contents
+
+This guide covers the complete toolchain needed for theoretical/computational physics research, from basics to advanced:
+
+| Module | Chapters | Topics |
+|--------|----------|--------|
+| Fundamentals | 00-05 | Computer basics, terminal, platform setup, package managers, editors |
+| Remote & Collaboration | 06-08 | SSH, Git, remote tools |
+| Docs & Knowledge Management | 09-10, 23 | Markdown & LaTeX, Obsidian, Zotero |
+| Programming Languages | 11-14, 18 | Bash, Python environment, scientific Python, compiled languages, Julia |
+| Build & Parallel Computing | 15-17 | Make & CMake, OpenMP & MPI, HPC libraries |
+| Modern Dev Practices | 19-22 | AI-assisted coding, reading code, project organization, vibe coding |
+| Data Management | 24 | Sync & backup |
 
 ## Local Development
 
-```bash
-yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
+This site is built with [Docusaurus](https://docusaurus.io/) and supports both Chinese and English.
 
 ```bash
-yarn build
+# Install dependencies
+npm install
+
+# Start local dev server (auto-refreshes on changes)
+npm start
+
+# Build static files to the build directory
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+## Contributing
 
-## Deployment
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
 
-Using SSH:
+## License
 
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+This project is licensed under [CC BY-SA 4.0](LICENSE).
