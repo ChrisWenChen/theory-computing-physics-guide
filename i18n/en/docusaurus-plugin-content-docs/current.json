@@ -1,0 +1,114 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.doc.首页": {
+    "message": "Home",
+    "description": "The label for the doc item '首页' in sidebar 'tutorialSidebar', linking to the doc intro"
+  },
+  "sidebar.tutorialSidebar.doc.0. 前言": {
+    "message": "0. Preface",
+    "description": "The label for the doc item '0. 前言' in sidebar 'tutorialSidebar', linking to the doc preface/index"
+  },
+  "sidebar.tutorialSidebar.doc.1. 计算机与操作系统基础": {
+    "message": "1. Computer & OS Basics",
+    "description": "The label for the doc item '1. 计算机与操作系统基础' in sidebar 'tutorialSidebar', linking to the doc computer-basics/index"
+  },
+  "sidebar.tutorialSidebar.doc.2. 终端、Shell 与命令行": {
+    "message": "2. Terminal Basics",
+    "description": "The label for the doc item '2. 终端、Shell 与命令行' in sidebar 'tutorialSidebar', linking to the doc terminal/index"
+  },
+  "sidebar.tutorialSidebar.doc.3. 三个平台的环境准备": {
+    "message": "3. Platform Setup",
+    "description": "The label for the doc item '3. 三个平台的环境准备' in sidebar 'tutorialSidebar', linking to the doc platform-setup/index"
+  },
+  "sidebar.tutorialSidebar.doc.4. 包管理器": {
+    "message": "4. Package Managers",
+    "description": "The label for the doc item '4. 包管理器' in sidebar 'tutorialSidebar', linking to the doc package-managers/index"
+  },
+  "sidebar.tutorialSidebar.doc.5. 编辑器与 IDE": {
+    "message": "5. Editors & IDEs",
+    "description": "The label for the doc item '5. 编辑器与 IDE' in sidebar 'tutorialSidebar', linking to the doc editors/index"
+  },
+  "sidebar.tutorialSidebar.doc.6. SSH 与远程服务器": {
+    "message": "6. SSH Remote Access",
+    "description": "The label for the doc item '6. SSH 与远程服务器' in sidebar 'tutorialSidebar', linking to the doc ssh/index"
+  },
+  "sidebar.tutorialSidebar.doc.7. Git 与科研协作": {
+    "message": "7. Git Version Control",
+    "description": "The label for the doc item '7. Git 与科研协作' in sidebar 'tutorialSidebar', linking to the doc git/index"
+  },
+  "sidebar.tutorialSidebar.doc.8. 远程连接工具": {
+    "message": "8. Remote Tools",
+    "description": "The label for the doc item '8. 远程连接工具' in sidebar 'tutorialSidebar', linking to the doc remote-tools/index"
+  },
+  "sidebar.tutorialSidebar.doc.9. Markdown、Mermaid 与 LaTeX": {
+    "message": "9. Markdown & LaTeX",
+    "description": "The label for the doc item '9. Markdown、Mermaid 与 LaTeX' in sidebar 'tutorialSidebar', linking to the doc markdown-latex/index"
+  },
+  "sidebar.tutorialSidebar.doc.10. Obsidian 与卡片笔记": {
+    "message": "10. Obsidian Notes",
+    "description": "The label for the doc item '10. Obsidian 与卡片笔记' in sidebar 'tutorialSidebar', linking to the doc obsidian/index"
+  },
+  "sidebar.tutorialSidebar.doc.11. Bash 脚本与自动化": {
+    "message": "11. Bash Scripting",
+    "description": "The label for the doc item '11. Bash 脚本与自动化' in sidebar 'tutorialSidebar', linking to the doc bash/index"
+  },
+  "sidebar.tutorialSidebar.doc.12. Python 与虚拟环境": {
+    "message": "12. Python Environment",
+    "description": "The label for the doc item '12. Python 与虚拟环境' in sidebar 'tutorialSidebar', linking to the doc python-env/index"
+  },
+  "sidebar.tutorialSidebar.doc.13. Python 科学计算生态": {
+    "message": "13. Scientific Python",
+    "description": "The label for the doc item '13. Python 科学计算生态' in sidebar 'tutorialSidebar', linking to the doc scientific-python/index"
+  },
+  "sidebar.tutorialSidebar.doc.14. Fortran / C / C++ 入门": {
+    "message": "14. Compiled Languages",
+    "description": "The label for the doc item '14. Fortran / C / C++ 入门' in sidebar 'tutorialSidebar', linking to the doc compiled-languages/index"
+  },
+  "sidebar.tutorialSidebar.doc.15. Make 与 CMake": {
+    "message": "15. Make & CMake",
+    "description": "The label for the doc item '15. Make 与 CMake' in sidebar 'tutorialSidebar', linking to the doc make-cmake/index"
+  },
+  "sidebar.tutorialSidebar.doc.16. OpenMP 与 MPI": {
+    "message": "16. OpenMP & MPI",
+    "description": "The label for the doc item '16. OpenMP 与 MPI' in sidebar 'tutorialSidebar', linking to the doc openmp-mpi/index"
+  },
+  "sidebar.tutorialSidebar.doc.17. 高性能数值库": {
+    "message": "17. HPC Libraries",
+    "description": "The label for the doc item '17. 高性能数值库' in sidebar 'tutorialSidebar', linking to the doc hpc-libraries/index"
+  },
+  "sidebar.tutorialSidebar.doc.18. Julia 与包管理": {
+    "message": "18. Julia Programming",
+    "description": "The label for the doc item '18. Julia 与包管理' in sidebar 'tutorialSidebar', linking to the doc julia/index"
+  },
+  "sidebar.tutorialSidebar.doc.19. Agent 辅助研究": {
+    "message": "19. Agent-Assisted Research",
+    "description": "The label for the doc item '19. Agent 辅助研究' in sidebar 'tutorialSidebar', linking to the doc ai-coding/index"
+  },
+  "sidebar.tutorialSidebar.doc.20. 如何读懂别人的代码": {
+    "message": "20. Reading Code",
+    "description": "The label for the doc item '20. 如何读懂别人的代码' in sidebar 'tutorialSidebar', linking to the doc reading-code/index"
+  },
+  "sidebar.tutorialSidebar.doc.21. 如何组织计算物理项目": {
+    "message": "21. Project Organization",
+    "description": "The label for the doc item '21. 如何组织计算物理项目' in sidebar 'tutorialSidebar', linking to the doc project-organization/index"
+  },
+  "sidebar.tutorialSidebar.doc.22. Vibe Coding": {
+    "message": "22. Vibe Coding",
+    "description": "The label for the doc item '22. Vibe Coding' in sidebar 'tutorialSidebar', linking to the doc vibe-coding/index"
+  },
+  "sidebar.tutorialSidebar.doc.23. Zotero 与文献管理": {
+    "message": "23. Zotero References",
+    "description": "The label for the doc item '23. Zotero 与文献管理' in sidebar 'tutorialSidebar', linking to the doc zotero/index"
+  },
+  "sidebar.tutorialSidebar.doc.24. 同步、备份与数据管理": {
+    "message": "24. Sync & Backup",
+    "description": "The label for the doc item '24. 同步、备份与数据管理' in sidebar 'tutorialSidebar', linking to the doc sync-backup/index"
+  },
+  "sidebar.tutorialSidebar.doc.25. 附录": {
+    "message": "25. Appendix",
+    "description": "The label for the doc item '25. 附录' in sidebar 'tutorialSidebar', linking to the doc appendix/index"
+  }
+}

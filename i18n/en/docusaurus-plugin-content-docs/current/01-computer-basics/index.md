@@ -1,0 +1,410 @@
+---
+sidebar_position: 1
+sidebar_label: "1. Computer & OS Basics"
+---
+
+# Chapter 1: Computer and Operating System Basics
+
+> Know your tools, and you'll use them better.
+
+## Chapter Goals
+
+After completing this chapter, you should be able to:
+
+- Describe the basic components of a computer: processor, memory, storage, I/O
+- Explain the difference between CPU and GPU, and their roles in research computing
+- Distinguish between RAM and disk storage
+- Understand the role of an operating system
+- Use file paths correctly and understand file extensions
+- Distinguish between processes, threads, and programs
+- Understand what "programming" actually means
+
+## Motivation
+
+You might think: "I'm not a CS student — why do I need to know about hardware?" The reason is simple:
+
+- Your simulation runs slowly — is the CPU not fast enough, or is there not enough memory?
+- Your advisor says "request a GPU node" — you need to know what kinds of computation GPUs accelerate
+- Your program throws `MemoryError` — you need to know what "memory" refers to here
+- Your data files are 50 GB — you need to decide where to store them
+
+You don't need deep hardware knowledge, but **building the right mental model** will help you know where to look when things go wrong.
+
+## 1.1 Basic Computer Architecture
+
+A computer can be simplified into four parts:
+
+```
+  Input Devices         Processor (CPU)          Output Devices
+  (keyboard, mouse) →   + Memory (RAM)       →   (monitor, files)
+                              ↕
+                         Storage (disk/SSD)
+```
+
+| Component | Analogy | Role |
+|-----------|---------|------|
+| CPU | Brain | Executes computational instructions |
+| Memory (RAM) | Desk | Holds data currently in use; fast but lost on power-off |
+| Disk (HDD/SSD) | Bookshelf | Long-term data storage; slower but persistent |
+| Input devices | Eyes and ears | Receives external information |
+| Output devices | Mouth and hands | Presents results to the user |
+
+:::tip In a research context
+When you run a Python script:
+1. The script file is stored on **disk**
+2. The Python interpreter loads the script into **memory**
+3. The **CPU** executes instructions line by line
+4. Results are printed to the screen or written back to **disk**
+:::
+
+## 1.2 CPU vs. GPU: What Each Does Best
+
+### CPU (Central Processing Unit)
+
+- Fewer cores (typically 4–16), but each is powerful
+- Excels at **sequential execution** of complex logic
+- Best for: general-purpose computing, logic-heavy programs, most research code
+
+### GPU (Graphics Processing Unit)
+
+- Many more cores (thousands), but each is simpler
+- Excels at **massively parallel** computation — performing the same operation on large amounts of data simultaneously
+- Best for: matrix operations, deep learning, molecular dynamics simulations, Monte Carlo simulations
+
+```
+CPU: a few highly capable workers, good at complex, precise tasks
+GPU: thousands of ordinary workers, good at massive amounts of simple, repetitive work
+```
+
+### What This Means for Physics Students
+
+| Task Type | Better Processor | Example |
+|-----------|-----------------|---------|
+| Symbolic computation | CPU | Mathematica derivations, SymPy |
+| Small-scale numerical computation | CPU | Solving ODEs, fitting data |
+| Large-scale matrix operations | GPU | DFT, deep learning |
+| Monte Carlo simulations | CPU or GPU | Depends on implementation |
+| Molecular dynamics | GPU | LAMMPS, GROMACS GPU versions |
+
+:::info Don't worry about GPUs yet
+Most entry-level research computing is fine with a CPU. When you actually need GPU acceleration, you can dive deeper then.
+:::
+
+## 1.3 Memory vs. Disk: Capacity, Speed, and Purpose
+
+This is one of the most commonly confused concepts for beginners.
+
+| Property | Memory (RAM) | Disk (HDD/SSD) |
+|----------|-------------|----------------|
+| Speed | Very fast (~ns) | Slower (~ms; SSD much faster than HDD) |
+| Capacity | Smaller (8–64 GB typical) | Larger (256 GB – several TB) |
+| After power-off | Data lost | Data preserved |
+| Purpose | Holds running programs and active data | Stores files and installed software |
+| Cost | Expensive | Cheap |
+
+### Real-World Impact in Research
+
+**What happens when memory runs out?**
+
+```python
+# This array requires ~8 GB of memory
+import numpy as np
+a = np.zeros((10**5, 10**4))  # 10^9 float64 elements
+```
+
+If your computer only has 8 GB of RAM, running this will likely cause the program to be killed by the OS (`Killed`) or raise `MemoryError`.
+
+**What happens when disk space runs out?**
+
+- Can't save new files
+- Programs can't write output
+- The system slows down or crashes
+
+:::caution Build a habit: estimate resource requirements before running large computations
+- How large is the data? Is there enough memory?
+- How large will the output files be? Is there enough disk space?
+- How long will it run? Is the CPU sufficient?
+:::
+
+## 1.4 What Is an Operating System?
+
+An **Operating System (OS)** is system software that manages a computer's hardware and software resources. It is the "translator" between you and the hardware.
+
+```
+  You (user)
+     ↓
+  Applications (Python, VS Code, browser...)
+     ↓
+  Operating System (macOS / Linux / Windows)
+     ↓
+  Hardware (CPU, memory, disk, GPU...)
+```
+
+### The Three Major Operating Systems
+
+| OS | Kernel | Characteristics | Research Use |
+|----|--------|----------------|--------------|
+| macOS | Darwin (Unix-like) | Great GUI, terminal ready out of the box | Personal development, daily research |
+| Linux (Ubuntu) | Linux | Open source, server standard | Servers, supercomputers, heavy computation |
+| Windows | NT | Most users, rich ecosystem | Daily use; research via WSL |
+
+### Why Do Researchers Mostly Use Linux?
+
+- Nearly all supercomputers and computing clusters run Linux
+- Most scientific software targets Linux first
+- The command-line toolchain is most complete
+- Free and open source — no licensing costs for university servers
+
+This doesn't mean you have to install Linux on your personal computer. macOS is naturally Unix-like, and Windows with WSL can provide a Linux environment.
+
+## 1.5 Files, Directories, Paths, and Extensions
+
+### Files and Directories
+
+- **File**: The basic unit of stored data — e.g., `simulation.py`, `data.csv`
+- **Directory**: Also called a "folder"; used to organize files
+
+### Paths
+
+A path is the "address" of a file in the file system.
+
+```bash
+# Unix/macOS/Linux style (forward slashes /)
+/home/student/research/simulation.py
+
+# Windows style (backslashes \)
+C:\Users\student\research\simulation.py
+```
+
+**Absolute path vs. relative path:**
+
+```bash
+# Absolute path: full path from the root directory
+/home/student/research/simulation.py
+
+# Relative path: path relative to the current directory
+# Assuming current directory is /home/student/
+research/simulation.py    # relative path
+./research/simulation.py  # same as above; ./ means current directory
+../other_project/data.csv # .. means parent directory
+```
+
+### Extensions
+
+The part of a filename after the last `.` is the extension. It **hints** at the file type:
+
+| Extension | Type | Common Use |
+|-----------|------|-----------|
+| `.py` | Python script | Data analysis, simulations |
+| `.f90` | Fortran source | Numerical computation |
+| `.c` / `.cpp` | C/C++ source | High-performance computing |
+| `.tex` | LaTeX file | Paper writing |
+| `.csv` | Comma-separated data | Experimental data |
+| `.dat` / `.txt` | Text data | Simulation output |
+| `.pdf` | PDF document | Papers, reports |
+| `.sh` | Shell script | Automation tasks |
+
+:::caution Extensions don't determine file content
+Renaming `.txt` to `.py` doesn't make a text file into a Python program. An extension is just a "label" — the actual content determines what the file is.
+:::
+
+## 1.6 Processes, Threads, and Programs
+
+| Concept | Analogy | Explanation |
+|---------|---------|-------------|
+| **Program** | A recipe | Code/instructions stored on disk; static |
+| **Process** | Cooking in progress | A program loaded into memory and executing; dynamic |
+| **Thread** | Steps in the cooking process | Multiple threads within a process can execute in parallel |
+
+```bash
+# View currently running processes
+# macOS / Linux:
+ps aux
+
+# Windows PowerShell:
+Get-Process
+```
+
+### Why Does This Matter?
+
+- Your program runs slowly — it might be using only a **single thread**, while your CPU has 8 cores
+- You want to run multiple simulations simultaneously — you need to understand processes
+- A program "freezes" — you need to know how to find and kill the corresponding process
+
+```bash
+# Kill a process (Linux/macOS)
+kill <PID>
+
+# Force kill
+kill -9 <PID>
+```
+
+## 1.7 What Is Programming?
+
+**Programming = describing the steps to solve a problem in a language the computer understands.**
+
+A simple example — calculating the energy of a harmonic oscillator:
+
+```python
+# Quantum harmonic oscillator energy levels
+# E_n = hbar * omega * (n + 1/2)
+
+hbar = 1.0545718e-34   # reduced Planck constant (J·s)
+omega = 2 * 3.14159 * 1e12  # angular frequency (rad/s)
+
+for n in range(5):
+    E = hbar * omega * (n + 0.5)
+    print(f"n = {n}, E = {E:.4e} J")
+```
+
+You don't need to become a "programmer." For physics students, programming is a **tool** — like mathematics. You need to master it to the extent that it lets you solve your physics problems.
+
+### Programming Languages Common in Research
+
+| Language | Characteristics | Use in Physics |
+|----------|----------------|----------------|
+| Python | Easy to learn, rich libraries | Data analysis, visualization, rapid prototyping |
+| C/C++ | High performance | Large-scale simulations, low-level libraries |
+| Fortran | Traditional strength in numerical computing | Legacy physics codes, supercomputer programs |
+| Julia | Modern high-performance | Emerging research language; easy and fast |
+| Mathematica | Symbolic computation | Analytic derivations, special functions |
+
+## 1.8 What Do "Code," "Script," "Software," and "Environment" Mean?
+
+These words are often used interchangeably in conversation, but they have distinct meanings:
+
+| Term | Meaning | Example |
+|------|---------|---------|
+| **Code** | Text written in a programming language | `energy = 0.5 * k * x**2` |
+| **Script** | A code file that can be run directly | `plot_spectrum.py` |
+| **Software / Program** | A complete executable application | VASP, Gaussian, LAMMPS |
+| **Library / Package** | A collection of code written by others for you to use | NumPy, SciPy, TensorFlow |
+| **Environment** | The combination of all dependencies needed to run code | Python 3.11 + NumPy 1.24 + ... |
+| **Toolchain** | A set of tools needed to accomplish a class of tasks | Compiler + linker + debugger |
+
+:::info "Environment" is where research computing most often breaks
+"It works on my machine" is the most common (and most frustrating) phrase in research computing. Learning to manage environments is one of the core goals of this guide.
+:::
+
+## FAQ
+
+**Q: Do I need to buy an expensive computer?**
+
+A: Not for getting started. Most learning and small-scale computation works fine on a regular laptop. Large-scale computation should be done on your institution's server or a supercomputer. At minimum, aim for 8 GB RAM and a 256 GB SSD.
+
+**Q: Is an Apple Silicon Mac suitable for research computing?**
+
+A: Very much so. Apple Silicon chips are powerful and energy-efficient. Nearly all research software has been adapted for ARM. The one caveat: some older Fortran code may require extra configuration.
+
+**Q: How much hardware knowledge do I need?**
+
+A: What's in this chapter is enough. You need the right mental model — not deep hardware engineering knowledge.
+
+## Summary
+
+- A computer consists of CPU, memory, disk, and I/O devices
+- CPUs excel at complex sequential tasks; GPUs excel at massively parallel tasks
+- Memory is fast and temporary; disk is slow and permanent
+- The OS is the bridge between you and the hardware; research servers almost always run Linux
+- Understanding file paths (absolute/relative) is a prerequisite for using the command line
+- A program is static code; a process is a running program
+- For physics students, programming is a tool, not an end in itself
+
+## Exercises
+
+### Exercise 1.1: Check Your Computer's Specs
+
+Find the following information in the terminal (or system settings):
+
+```bash
+# macOS
+sysctl -n machdep.cpu.brand_string   # CPU model
+sysctl -n hw.memsize                  # Memory size (bytes)
+df -h                                  # Disk space
+sw_vers                                # OS version
+
+# Ubuntu
+lscpu                                 # CPU info
+free -h                               # Memory info
+df -h                                  # Disk space
+lsb_release -a                        # OS version
+
+# Windows PowerShell
+Get-WmiObject -Class Win32_Processor  # CPU info
+Get-WmiObject -Class Win32_PhysicalMemory | Select Capacity  # Memory
+Get-PSDrive C                         # C drive space
+winver                                 # OS version
+```
+
+### Exercise 1.2: Estimate Memory Requirements
+
+A physics simulation needs to store a 1000 × 1000 × 1000 three-dimensional array, where each element is a 64-bit float (8 bytes). Calculate:
+
+1. How much memory does this array require? (in GB)
+2. Does your computer have enough?
+3. If not, what are your options?
+
+<details>
+<summary>Answer</summary>
+
+1. 1000 × 1000 × 1000 × 8 bytes = 8 × 10⁹ bytes = 8 GB (strictly speaking, 8,000,000,000 bytes ≈ 7.45 GiB)
+2. It depends on your computer. If you have 8 GB of RAM, this single array would nearly exhaust all available memory (the OS itself needs 2–3 GB), so it's effectively not enough. 16 GB or more would be comfortable.
+3. Possible solutions include:
+   - Use a more memory-efficient data type (e.g., 32-bit float `float32`, cutting memory in half to ~3.7 GiB)
+   - Process the data in chunks instead of loading the entire array at once
+   - Use sparse matrices (if the data contains many zeros)
+   - Run the simulation on a server or HPC cluster with more memory
+   - Use memory-mapped files, letting the OS load data on demand
+
+</details>
+
+### Exercise 1.3: Identify File Types
+
+What might each of the following files contain? What program would typically open them?
+
+1. `hartree_fock.f90`
+2. `plot_dos.py`
+3. `POSCAR`
+4. `results.csv`
+5. `manuscript.tex`
+6. `run_job.sh`
+
+<details>
+<summary>Answer</summary>
+
+| Filename | Extension | Content | How to open |
+|----------|-----------|---------|-------------|
+| `hartree_fock.f90` | `.f90` | Fortran 90 source code (implementation of the Hartree-Fock method) | Text editor (VS Code, vim); compile with `gfortran` |
+| `plot_dos.py` | `.py` | Python script (likely plots a density of states, DOS) | Text editor; run with `python3 plot_dos.py` |
+| `POSCAR` | no extension | VASP (first-principles calculation software) crystal structure input file | Text editor; visualize with VESTA |
+| `results.csv` | `.csv` | Comma-separated data file | Excel, text editor, Python (`pandas.read_csv`) |
+| `manuscript.tex` | `.tex` | LaTeX paper source file | Text editor; compile with `xelatex` or `pdflatex` to PDF |
+| `run_job.sh` | `.sh` | Shell script (likely a job submission script) | Text editor; run with `bash run_job.sh` |
+
+</details>
+
+### Exercise 1.4: CPU Cores and Parallelism
+
+How many cores does your CPU have? If you want to run 4 independent Monte Carlo simulations simultaneously, each single-threaded, can your CPU handle all of them at once? Why or why not?
+
+<details>
+<summary>Answer</summary>
+
+Check your CPU core count:
+
+```bash
+# macOS
+sysctl -n hw.ncpu
+
+# Linux
+nproc
+
+# Windows PowerShell
+(Get-WmiObject -Class Win32_Processor).NumberOfLogicalProcessors
+```
+
+- If your CPU has **4 or more cores** (modern laptops typically have 4–16 cores), then yes — you can run 4 single-threaded simulations simultaneously, each on its own core, without interference.
+- If your CPU has only **2 cores**, the OS can still "simultaneously" run 4 simulations (via time-slice scheduling), but each simulation will only get about 50% of CPU time, roughly doubling the total wall time compared to the 4-core case.
+- **Hyper-Threading**: For example, a 4-core/8-thread CPU has 4 physical cores and 8 logical cores. Four single-threaded tasks can run fully in parallel on the 4 physical cores, achieving near-ideal performance.
+
+</details>

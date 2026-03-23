@@ -1,0 +1,625 @@
+---
+sidebar_position: 7
+sidebar_label: "7. Git 与科研协作"
+---
+
+# 第 7 章：Git、GitHub 与科研协作
+
+> 用 Git 管理代码，就像用实验记录本管理实验——每一步都有迹可循。
+
+## 本章目标
+
+- 理解版本控制的核心概念
+- 掌握 Git 的基本操作：clone, add, commit, push, pull
+- 学会使用 `.gitignore` 管理不需要追踪的文件
+- 了解 GitHub 的协作功能：fork, pull request, issue
+- 建立适合学生的 Git 工作流
+- 掌握常见错误的恢复方法
+
+## 动机
+
+你有没有经历过这些场景？
+
+- `paper_v1.tex`、`paper_v2.tex`、`paper_final.tex`、`paper_final_final.tex`——到底哪个是最新版？
+- 改了一段代码，程序不工作了，想恢复到昨天的版本，但已经覆盖了
+- 和同学合作写代码，互相发文件，版本混乱
+- 导师说"上周那个结果挺好的"，但你已经改了代码，无法复现
+
+**版本控制系统（Version Control System, VCS）** 正是解决这些问题的工具。**Git** 是当今最流行的版本控制系统。
+
+---
+
+## 7.1 为什么需要版本控制
+
+| 没有版本控制 | 使用 Git |
+|------------|---------|
+| 文件命名混乱：`v1`, `v2`, `final` | 每次修改都有 commit 记录 |
+| 无法回退到之前的版本 | 可以回退到任意历史版本 |
+| 多人协作靠发邮件/U盘 | 通过 GitHub 同步代码 |
+| 不知道谁改了什么 | 每次 commit 记录作者和时间 |
+| 改坏了不敢动 | 放心实验，随时可以回退 |
+
+:::tip 科研中的版本控制
+版本控制不仅用于代码，也适用于：
+- LaTeX 论文（追踪每次修改）
+- 数据分析脚本（确保可复现）
+- 配置文件和文档
+:::
+
+---
+
+## 7.2 Git 与 GitHub 分别是什么
+
+- **Git** 是一个**本地工具**，在你的电脑上运行，管理文件的版本历史
+- **GitHub** 是一个**在线平台**，用于托管 Git 仓库，提供协作功能
+
+类比：
+- Git = 你桌上的笔记本（本地记录）
+- GitHub = 云端备份 + 协作平台（远程共享）
+
+其他类似 GitHub 的平台：GitLab、Gitee（中国大陆）、Bitbucket。
+
+### 安装 Git
+
+```bash
+# macOS
+brew install git
+
+# Ubuntu
+sudo apt install git
+
+# Windows
+scoop install git
+# 或通过 winget：winget install Git.Git
+```
+
+### 初始配置
+
+```bash
+git config --global user.name "Zhang San"
+git config --global user.email "zhangsan@example.com"
+git config --global init.defaultBranch main
+git config --global core.editor "vim"    # 或 nano, code --wait
+```
+
+---
+
+## 7.3 repository / commit / branch / merge 的概念
+
+### Repository（仓库）
+
+一个项目的所有文件和它们的完整历史记录。
+
+```bash
+# 创建新仓库
+mkdir my-project && cd my-project
+git init
+
+# 或克隆已有仓库
+git clone https://github.com/user/repo.git
+```
+
+### Commit（提交）
+
+一次"快照"——记录了某个时刻所有文件的状态。
+
+```
+commit abc1234 - "添加数值求解模块"
+commit def5678 - "修复边界条件 bug"
+commit 789abcd - "优化矩阵求解性能"
+```
+
+每个 commit 包含：
+- 修改的内容（diff）
+- 作者和时间
+- 提交信息（commit message）
+- 指向上一个 commit 的指针
+
+### Branch（分支）
+
+平行的开发路线，互不干扰。
+
+```
+main:    A → B → C → D
+                  ↘
+feature:           E → F
+```
+
+```bash
+git branch feature       # 创建分支
+git checkout feature     # 切换到分支
+# 或合二为一：
+git checkout -b feature  # 创建并切换
+```
+
+### Merge（合并）
+
+将一个分支的修改合并到另一个分支。
+
+```bash
+git checkout main        # 切换到 main
+git merge feature        # 将 feature 合并到 main
+```
+
+---
+
+## 7.4 clone, add, commit, push, pull
+
+这是 Git 最核心的五个操作，掌握它们就能应对大多数场景。
+
+### 工作流程图
+
+```
+工作区（Working Directory）
+    │
+    │  git add
+    ▼
+暂存区（Staging Area）
+    │
+    │  git commit
+    ▼
+本地仓库（Local Repository）
+    │
+    │  git push
+    ▼
+远程仓库（Remote Repository, e.g., GitHub）
+```
+
+### git clone：克隆远程仓库
+
+```bash
+git clone https://github.com/user/repo.git
+# 或使用 SSH：
+git clone git@github.com:user/repo.git
+```
+
+### git add：添加文件到暂存区
+
+```bash
+git add filename.py          # 添加单个文件
+git add src/                 # 添加整个目录
+git add *.py                 # 添加所有 .py 文件
+git add -A                   # 添加所有修改（慎用）
+```
+
+### git commit：提交到本地仓库
+
+```bash
+git commit -m "简要描述这次修改的内容"
+```
+
+:::tip 好的 commit message
+```bash
+# 好的 commit message
+git commit -m "Fix boundary condition in heat equation solver"
+git commit -m "Add RK4 integrator for ODE module"
+git commit -m "Update README with installation instructions"
+
+# 不好的 commit message
+git commit -m "update"
+git commit -m "fix bug"
+git commit -m "asdf"
+```
+
+建议格式：`动词 + 具体内容`，用英文，首字母大写，不加句号。
+:::
+
+### git push：推送到远程仓库
+
+```bash
+git push origin main         # 推送 main 分支到远程
+git push                     # 如果已设置 upstream，可以简写
+```
+
+### git pull：从远程拉取更新
+
+```bash
+git pull origin main         # 从远程拉取 main 分支的更新
+git pull                     # 简写
+```
+
+### 查看状态和历史
+
+```bash
+git status                   # 查看当前状态
+git log                      # 查看提交历史
+git log --oneline            # 简洁模式
+git log --oneline --graph    # 图形化显示分支
+git diff                     # 查看未暂存的修改
+git diff --staged            # 查看已暂存的修改
+```
+
+---
+
+## 7.5 .gitignore
+
+`.gitignore` 文件告诉 Git 哪些文件不需要追踪。这些通常包括：
+
+- 编译产物（`.o`, `.exe`, `.pyc`）
+- 数据文件（太大或者会频繁变化）
+- 依赖目录（`node_modules/`, `venv/`）
+- IDE 配置（`.vscode/`, `.idea/`）
+- 系统文件（`.DS_Store`, `Thumbs.db`）
+
+### Python 项目的 .gitignore
+
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# 虚拟环境
+venv/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 数据文件（太大不应该放在 Git 里）
+data/*.csv
+data/*.hdf5
+*.dat
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 敏感信息
+.env
+*.key
+```
+
+### C/C++ 项目的 .gitignore
+
+```gitignore
+# 编译产物
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dylib
+
+# CMake 构建目录
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+```
+
+### 创建 .gitignore
+
+```bash
+# 手动创建
+touch .gitignore
+# 编辑并添加规则...
+
+# 或者使用 gitignore.io 生成
+# 访问 https://www.toptal.com/developers/gitignore
+# 选择 Python, C++, macOS, Linux, Windows 等
+```
+
+:::caution
+`.gitignore` 只对尚未被 Git 追踪的文件有效。如果一个文件已经被 commit 过了，添加到 `.gitignore` 后需要手动取消追踪：
+
+```bash
+git rm --cached filename
+git commit -m "Remove tracked file that should be ignored"
+```
+:::
+
+---
+
+## 7.6 fork 与 pull request
+
+### Fork
+
+Fork 是在 GitHub 上复制别人的仓库到你自己的账号下：
+
+```
+原始仓库：github.com/professor/physics-code
+    ↓ Fork
+你的副本：github.com/zhangsan/physics-code
+```
+
+### Pull Request（PR）
+
+当你在 fork 的仓库中修改了代码，想把修改贡献回原始仓库，就创建一个 Pull Request：
+
+```bash
+# 1. Fork 仓库（在 GitHub 网页上操作）
+# 2. Clone 你的 fork
+git clone git@github.com:zhangsan/physics-code.git
+cd physics-code
+
+# 3. 创建新分支
+git checkout -b fix-boundary-condition
+
+# 4. 修改代码，提交
+git add solver.py
+git commit -m "Fix boundary condition handling for Dirichlet BC"
+
+# 5. 推送到你的 fork
+git push origin fix-boundary-condition
+
+# 6. 在 GitHub 网页上创建 Pull Request
+```
+
+### 典型的开源协作流程
+
+```
+1. Fork 原始仓库
+2. Clone 到本地
+3. 创建新分支
+4. 修改代码 → add → commit
+5. Push 到你的 fork
+6. 创建 Pull Request
+7. 代码审查（code review）
+8. 合并（merge）
+```
+
+---
+
+## 7.7 issue 与讨论区
+
+### Issue
+
+GitHub Issue 是一个任务/问题追踪系统：
+
+- 报告 bug
+- 请求新功能
+- 提出问题
+
+良好的 issue 应包含：
+- 简洁的标题
+- 问题描述
+- 复现步骤（对于 bug）
+- 环境信息（操作系统、Python 版本等）
+
+### Discussions
+
+GitHub Discussions 适合更开放的讨论，如使用问题、设计方案等。
+
+:::info
+在科研中，为自己的项目开 issue 也很有用——可以追踪 TODO、记录想法、规划功能。
+:::
+
+---
+
+## 7.8 开源精神与科研复现
+
+**开源（Open Source）** 是将代码公开，允许他人使用、修改和分发。
+
+在科研中，开源意味着：
+
+- **可复现性**：他人可以运行你的代码，验证你的结果
+- **透明性**：代码和方法完全公开，接受同行审查
+- **协作**：全世界的研究者可以贡献代码
+- **传承**：你毕业后，后来的学生可以继续使用和改进代码
+
+:::tip 科研中的最佳实践
+- 在论文中提供代码仓库链接
+- 使用 `LICENSE` 文件声明许可证（推荐 MIT 或 Apache 2.0）
+- 写好 `README.md`，包含安装说明和使用示例
+- 使用 `requirements.txt` 或 `environment.yml` 记录依赖
+:::
+
+---
+
+## 7.9 一个适合学生的 Git 工作流
+
+对于个人科研项目，不需要复杂的 Git 工作流。推荐以下简单流程：
+
+### 日常开发流程
+
+```bash
+# 1. 开始工作前，拉取最新代码
+git pull
+
+# 2. 编写代码...
+
+# 3. 查看修改了什么
+git status
+git diff
+
+# 4. 添加修改的文件
+git add modified_file.py
+
+# 5. 提交
+git commit -m "Add convergence test for FEM solver"
+
+# 6. 推送到 GitHub
+git push
+```
+
+### 尝试新功能时使用分支
+
+```bash
+# 1. 创建新分支
+git checkout -b experiment/new-solver
+
+# 2. 在新分支上自由实验...
+git add .
+git commit -m "Try spectral method for Poisson equation"
+
+# 3a. 实验成功 → 合并回 main
+git checkout main
+git merge experiment/new-solver
+git push
+
+# 3b. 实验失败 → 丢弃分支
+git checkout main
+git branch -d experiment/new-solver
+```
+
+### 推荐的仓库结构
+
+```
+my-research-project/
+├── README.md
+├── LICENSE
+├── .gitignore
+├── requirements.txt
+├── src/
+│   ├── solver.py
+│   ├── utils.py
+│   └── analysis.py
+├── tests/
+│   └── test_solver.py
+├── scripts/
+│   ├── run_simulation.sh
+│   └── plot_results.py
+├── notebooks/
+│   └── exploration.ipynb
+└── docs/
+    └── notes.md
+```
+
+---
+
+## 7.10 常见错误与恢复方法
+
+### 撤销未暂存的修改
+
+```bash
+# 撤销单个文件的修改
+git checkout -- filename.py
+
+# 撤销所有未暂存的修改（慎用）
+git checkout -- .
+```
+
+### 撤销已暂存但未提交的修改
+
+```bash
+# 从暂存区移除（文件修改保留）
+git reset HEAD filename.py
+
+# 或用新版 Git 命令
+git restore --staged filename.py
+```
+
+### 撤销最后一次 commit（保留修改）
+
+```bash
+git reset --soft HEAD~1
+# 修改还在暂存区，可以重新 commit
+```
+
+### 修改最后一次 commit 的 message
+
+```bash
+git commit --amend -m "Corrected commit message"
+```
+
+:::caution
+`git commit --amend` 和 `git reset` 会修改提交历史。如果已经 push 到远程仓库，需要 `git push --force`，这可能影响协作者。在个人项目中可以放心使用，在多人协作项目中要谨慎。
+:::
+
+### 合并冲突（Merge Conflict）
+
+当两个分支修改了同一行代码，合并时会产生冲突：
+
+```
+<<<<<<< HEAD
+print("version A")
+=======
+print("version B")
+>>>>>>> feature-branch
+```
+
+解决步骤：
+
+```bash
+# 1. 编辑冲突文件，选择保留哪个版本（或手动合并）
+# 删除 <<<<<<, =======, >>>>>>> 标记
+print("merged version")
+
+# 2. 标记冲突已解决
+git add conflicted_file.py
+
+# 3. 完成合并
+git commit -m "Resolve merge conflict in solver.py"
+```
+
+### 不小心 commit 了大文件
+
+```bash
+# 如果还没有 push
+git reset --soft HEAD~1
+# 添加到 .gitignore
+echo "large_data.hdf5" >> .gitignore
+git add .gitignore
+git commit -m "Add large data file to gitignore"
+
+# 如果已经 push 了，需要使用 git filter-branch 或 BFG Repo-Cleaner
+# 这比较复杂，建议搜索具体教程
+```
+
+### 查看某个文件的修改历史
+
+```bash
+git log --follow -p filename.py
+```
+
+---
+
+## 常见问题
+
+**Q: Git 和 GitHub 必须一起用吗？**
+A: 不必须。Git 是本地工具，可以完全离线使用。GitHub 只是一个远程托管平台。但对于科研协作和代码备份，强烈建议配合使用。
+
+**Q: 应该多久 commit 一次？**
+A: 建议完成一个小功能或修复一个 bug 就 commit 一次。不要积攒一天的修改再一次性 commit——那样难以追踪变化。
+
+**Q: 大数据文件应该放在 Git 里吗？**
+A: 不应该。Git 不适合管理大文件（>100MB）。大数据文件可以用 Git LFS（Large File Storage）、网盘或专门的数据存储服务。
+
+**Q: 论文的 LaTeX 文件适合用 Git 管理吗？**
+A: 非常适合。Git 对文本文件（包括 `.tex`）的支持很好。但注意把编译产物（`.pdf`, `.aux`, `.log`）加入 `.gitignore`。
+
+**Q: GitHub 免费用吗？**
+A: 是的。GitHub 个人用户可以免费创建无限数量的公开和私有仓库。学生可以申请 [GitHub Education Pack](https://education.github.com/pack) 获得更多免费工具。
+
+---
+
+## 小结
+
+- **Git** 是本地版本控制工具，**GitHub** 是远程协作平台
+- 核心操作：`add` → `commit` → `push`，以及 `pull` 和 `clone`
+- 使用 `.gitignore` 排除不需要追踪的文件
+- 通过 **branch** 进行实验性开发，通过 **merge** 合并成果
+- **fork + pull request** 是开源协作的标准流程
+- 养成频繁 commit 的习惯，每个 commit 做一件事
+
+---
+
+## 练习
+
+1. 安装 Git 并完成初始配置（用户名和邮箱）
+2. 在本地创建一个 Git 仓库，添加几个文件，进行至少 3 次 commit
+3. 在 GitHub 上创建一个仓库，将本地仓库推送到 GitHub
+4. 创建 `.gitignore` 文件，排除 Python 编译产物和数据文件
+5. 创建一个新分支，在分支上修改代码，然后合并回 main
+6. 故意制造一个 merge conflict，练习解决冲突
+7. 练习使用 `git reset --soft HEAD~1` 撤销一次 commit
+8. Fork 一个开源项目（如 [GitHub 提供的练习仓库](https://github.com/octocat/Spoon-Knife)），创建 Pull Request

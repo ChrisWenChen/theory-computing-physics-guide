@@ -1,0 +1,625 @@
+---
+sidebar_position: 7
+sidebar_label: "7. Git Version Control"
+---
+
+# Chapter 7: Git, GitHub, and Research Collaboration
+
+> Managing code with Git is like managing experiments with a lab notebook — every step is traceable.
+
+## Chapter Goals
+
+- Understand the core concepts of version control
+- Master basic Git operations: clone, add, commit, push, pull
+- Learn to use `.gitignore` to manage untracked files
+- Understand GitHub's collaboration features: fork, pull request, issue
+- Establish a Git workflow suitable for students
+- Master common error recovery methods
+
+## Motivation
+
+Have you ever experienced any of these scenarios?
+
+- `paper_v1.tex`, `paper_v2.tex`, `paper_final.tex`, `paper_final_final.tex` — which one is actually the latest version?
+- You changed some code, the program stopped working, and you want to revert to yesterday's version, but you already overwrote it
+- Collaborating with classmates by sending files back and forth, leading to version chaos
+- Your advisor says "last week's result was great," but you have already changed the code and cannot reproduce it
+
+**Version Control Systems (VCS)** are the tools that solve these problems. **Git** is the most popular version control system today.
+
+---
+
+## 7.1 Why Version Control Is Necessary
+
+| Without version control | With Git |
+|------------------------|----------|
+| Chaotic file naming: `v1`, `v2`, `final` | Every change has a commit record |
+| Cannot revert to a previous version | Can revert to any historical version |
+| Multi-person collaboration via email/USB drives | Sync code through GitHub |
+| No idea who changed what | Each commit records the author and time |
+| Afraid to make changes after breaking something | Experiment freely, revert anytime |
+
+:::tip Version Control in Research
+Version control is not just for code — it also applies to:
+- LaTeX papers (track every revision)
+- Data analysis scripts (ensure reproducibility)
+- Configuration files and documentation
+:::
+
+---
+
+## 7.2 What Are Git and GitHub
+
+- **Git** is a **local tool** that runs on your computer and manages the version history of files
+- **GitHub** is an **online platform** for hosting Git repositories and providing collaboration features
+
+Analogy:
+- Git = a notebook on your desk (local records)
+- GitHub = cloud backup + collaboration platform (remote sharing)
+
+Other platforms similar to GitHub: GitLab, Gitee, Bitbucket.
+
+### Installing Git
+
+```bash
+# macOS
+brew install git
+
+# Ubuntu
+sudo apt install git
+
+# Windows
+scoop install git
+# Or via winget: winget install Git.Git
+```
+
+### Initial Configuration
+
+```bash
+git config --global user.name "Zhang San"
+git config --global user.email "zhangsan@example.com"
+git config --global init.defaultBranch main
+git config --global core.editor "vim"    # Or nano, code --wait
+```
+
+---
+
+## 7.3 Concepts: repository / commit / branch / merge
+
+### Repository
+
+A project's complete collection of files and their entire history.
+
+```bash
+# Create a new repository
+mkdir my-project && cd my-project
+git init
+
+# Or clone an existing repository
+git clone https://github.com/user/repo.git
+```
+
+### Commit
+
+A "snapshot" — a record of the state of all files at a particular moment.
+
+```
+commit abc1234 - "Add numerical solver module"
+commit def5678 - "Fix boundary condition bug"
+commit 789abcd - "Optimize matrix solver performance"
+```
+
+Each commit contains:
+- The changes made (diff)
+- Author and timestamp
+- Commit message
+- A pointer to the previous commit
+
+### Branch
+
+Parallel lines of development that do not interfere with each other.
+
+```
+main:    A → B → C → D
+                  ↘
+feature:           E → F
+```
+
+```bash
+git branch feature       # Create a branch
+git checkout feature     # Switch to the branch
+# Or combine both:
+git checkout -b feature  # Create and switch
+```
+
+### Merge
+
+Combine the changes from one branch into another.
+
+```bash
+git checkout main        # Switch to main
+git merge feature        # Merge feature into main
+```
+
+---
+
+## 7.4 clone, add, commit, push, pull
+
+These are the five most essential Git operations. Mastering them will cover most scenarios.
+
+### Workflow Diagram
+
+```
+Working Directory
+    │
+    │  git add
+    ▼
+Staging Area
+    │
+    │  git commit
+    ▼
+Local Repository
+    │
+    │  git push
+    ▼
+Remote Repository (e.g., GitHub)
+```
+
+### git clone: Clone a Remote Repository
+
+```bash
+git clone https://github.com/user/repo.git
+# Or using SSH:
+git clone git@github.com:user/repo.git
+```
+
+### git add: Add Files to the Staging Area
+
+```bash
+git add filename.py          # Add a single file
+git add src/                 # Add an entire directory
+git add *.py                 # Add all .py files
+git add -A                   # Add all changes (use with caution)
+```
+
+### git commit: Commit to the Local Repository
+
+```bash
+git commit -m "Brief description of this change"
+```
+
+:::tip Good Commit Messages
+```bash
+# Good commit messages
+git commit -m "Fix boundary condition in heat equation solver"
+git commit -m "Add RK4 integrator for ODE module"
+git commit -m "Update README with installation instructions"
+
+# Bad commit messages
+git commit -m "update"
+git commit -m "fix bug"
+git commit -m "asdf"
+```
+
+Recommended format: `Verb + specific content`, in English, capitalized first letter, no period.
+:::
+
+### git push: Push to the Remote Repository
+
+```bash
+git push origin main         # Push the main branch to remote
+git push                     # Shorthand if upstream is already set
+```
+
+### git pull: Pull Updates from the Remote
+
+```bash
+git pull origin main         # Pull updates from the remote main branch
+git pull                     # Shorthand
+```
+
+### View Status and History
+
+```bash
+git status                   # View current status
+git log                      # View commit history
+git log --oneline            # Compact mode
+git log --oneline --graph    # Graphical branch display
+git diff                     # View unstaged changes
+git diff --staged            # View staged changes
+```
+
+---
+
+## 7.5 .gitignore
+
+The `.gitignore` file tells Git which files should not be tracked. These typically include:
+
+- Build artifacts (`.o`, `.exe`, `.pyc`)
+- Data files (too large or change frequently)
+- Dependency directories (`node_modules/`, `venv/`)
+- IDE configuration (`.vscode/`, `.idea/`)
+- System files (`.DS_Store`, `Thumbs.db`)
+
+### .gitignore for Python Projects
+
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (too large for Git)
+data/*.csv
+data/*.hdf5
+*.dat
+
+# IDE
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Sensitive information
+.env
+*.key
+```
+
+### .gitignore for C/C++ Projects
+
+```gitignore
+# Build artifacts
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dylib
+
+# CMake build directory
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+```
+
+### Creating .gitignore
+
+```bash
+# Create manually
+touch .gitignore
+# Edit and add rules...
+
+# Or generate using gitignore.io
+# Visit https://www.toptal.com/developers/gitignore
+# Select Python, C++, macOS, Linux, Windows, etc.
+```
+
+:::caution
+`.gitignore` only applies to files that are not yet tracked by Git. If a file has already been committed, you need to manually untrack it after adding it to `.gitignore`:
+
+```bash
+git rm --cached filename
+git commit -m "Remove tracked file that should be ignored"
+```
+:::
+
+---
+
+## 7.6 Fork and Pull Request
+
+### Fork
+
+A fork is a copy of someone else's repository to your own GitHub account:
+
+```
+Original repo: github.com/professor/physics-code
+    ↓ Fork
+Your copy:     github.com/zhangsan/physics-code
+```
+
+### Pull Request (PR)
+
+When you have made changes in your forked repository and want to contribute them back to the original repository, you create a Pull Request:
+
+```bash
+# 1. Fork the repository (on the GitHub website)
+# 2. Clone your fork
+git clone git@github.com:zhangsan/physics-code.git
+cd physics-code
+
+# 3. Create a new branch
+git checkout -b fix-boundary-condition
+
+# 4. Modify the code and commit
+git add solver.py
+git commit -m "Fix boundary condition handling for Dirichlet BC"
+
+# 5. Push to your fork
+git push origin fix-boundary-condition
+
+# 6. Create a Pull Request on the GitHub website
+```
+
+### Typical Open Source Collaboration Workflow
+
+```
+1. Fork the original repository
+2. Clone to local
+3. Create a new branch
+4. Modify code → add → commit
+5. Push to your fork
+6. Create a Pull Request
+7. Code review
+8. Merge
+```
+
+---
+
+## 7.7 Issues and Discussions
+
+### Issue
+
+GitHub Issues is a task/problem tracking system:
+
+- Report bugs
+- Request new features
+- Ask questions
+
+A good issue should include:
+- A concise title
+- Problem description
+- Steps to reproduce (for bugs)
+- Environment information (OS, Python version, etc.)
+
+### Discussions
+
+GitHub Discussions is suitable for more open-ended conversations, such as usage questions or design proposals.
+
+:::info
+In research, opening issues for your own projects is also useful — you can track TODOs, record ideas, and plan features.
+:::
+
+---
+
+## 7.8 Open Source Spirit and Research Reproducibility
+
+**Open Source** means making code publicly available, allowing others to use, modify, and distribute it.
+
+In research, open source means:
+
+- **Reproducibility**: Others can run your code and verify your results
+- **Transparency**: Code and methods are fully public, subject to peer review
+- **Collaboration**: Researchers worldwide can contribute code
+- **Legacy**: After you graduate, future students can continue using and improving the code
+
+:::tip Best Practices in Research
+- Provide a code repository link in your papers
+- Use a `LICENSE` file to declare the license (MIT or Apache 2.0 recommended)
+- Write a good `README.md` with installation instructions and usage examples
+- Use `requirements.txt` or `environment.yml` to record dependencies
+:::
+
+---
+
+## 7.9 A Git Workflow Suitable for Students
+
+For personal research projects, you do not need a complex Git workflow. The following simple process is recommended:
+
+### Daily Development Workflow
+
+```bash
+# 1. Pull the latest code before starting work
+git pull
+
+# 2. Write code...
+
+# 3. Review what has changed
+git status
+git diff
+
+# 4. Add modified files
+git add modified_file.py
+
+# 5. Commit
+git commit -m "Add convergence test for FEM solver"
+
+# 6. Push to GitHub
+git push
+```
+
+### Use Branches When Trying New Features
+
+```bash
+# 1. Create a new branch
+git checkout -b experiment/new-solver
+
+# 2. Experiment freely on the new branch...
+git add .
+git commit -m "Try spectral method for Poisson equation"
+
+# 3a. Experiment succeeded → merge back to main
+git checkout main
+git merge experiment/new-solver
+git push
+
+# 3b. Experiment failed → discard the branch
+git checkout main
+git branch -d experiment/new-solver
+```
+
+### Recommended Repository Structure
+
+```
+my-research-project/
+├── README.md
+├── LICENSE
+├── .gitignore
+├── requirements.txt
+├── src/
+│   ├── solver.py
+│   ├── utils.py
+│   └── analysis.py
+├── tests/
+│   └── test_solver.py
+├── scripts/
+│   ├── run_simulation.sh
+│   └── plot_results.py
+├── notebooks/
+│   └── exploration.ipynb
+└── docs/
+    └── notes.md
+```
+
+---
+
+## 7.10 Common Errors and Recovery Methods
+
+### Undo Unstaged Changes
+
+```bash
+# Undo changes to a single file
+git checkout -- filename.py
+
+# Undo all unstaged changes (use with caution)
+git checkout -- .
+```
+
+### Undo Staged but Uncommitted Changes
+
+```bash
+# Remove from staging area (file changes are preserved)
+git reset HEAD filename.py
+
+# Or use the newer Git command
+git restore --staged filename.py
+```
+
+### Undo the Last Commit (Preserve Changes)
+
+```bash
+git reset --soft HEAD~1
+# Changes remain in the staging area, ready to be re-committed
+```
+
+### Amend the Last Commit Message
+
+```bash
+git commit --amend -m "Corrected commit message"
+```
+
+:::caution
+`git commit --amend` and `git reset` modify commit history. If you have already pushed to a remote repository, you will need `git push --force`, which may affect collaborators. Safe to use in personal projects, but be cautious in multi-person collaborations.
+:::
+
+### Merge Conflict
+
+When two branches modify the same line of code, a conflict occurs during merging:
+
+```
+<<<<<<< HEAD
+print("version A")
+=======
+print("version B")
+>>>>>>> feature-branch
+```
+
+Resolution steps:
+
+```bash
+# 1. Edit the conflicted file — choose which version to keep (or merge manually)
+# Remove the <<<<<<, =======, >>>>>>> markers
+print("merged version")
+
+# 2. Mark the conflict as resolved
+git add conflicted_file.py
+
+# 3. Complete the merge
+git commit -m "Resolve merge conflict in solver.py"
+```
+
+### Accidentally Committed a Large File
+
+```bash
+# If you haven't pushed yet
+git reset --soft HEAD~1
+# Add to .gitignore
+echo "large_data.hdf5" >> .gitignore
+git add .gitignore
+git commit -m "Add large data file to gitignore"
+
+# If you've already pushed, you'll need git filter-branch or BFG Repo-Cleaner
+# This is more complex — search for specific tutorials
+```
+
+### View the Change History of a Specific File
+
+```bash
+git log --follow -p filename.py
+```
+
+---
+
+## FAQ
+
+**Q: Do Git and GitHub have to be used together?**
+A: No. Git is a local tool that can be used completely offline. GitHub is just a remote hosting platform. However, for research collaboration and code backup, using them together is strongly recommended.
+
+**Q: How often should I commit?**
+A: It is recommended to commit after completing a small feature or fixing a bug. Do not accumulate a full day's changes before committing — that makes it hard to track changes.
+
+**Q: Should large data files be stored in Git?**
+A: No. Git is not suitable for managing large files (>100MB). Large data files can be handled with Git LFS (Large File Storage), cloud storage, or dedicated data storage services.
+
+**Q: Is Git suitable for managing LaTeX paper files?**
+A: Absolutely. Git works great with text files (including `.tex`). Just make sure to add build artifacts (`.pdf`, `.aux`, `.log`) to `.gitignore`.
+
+**Q: Is GitHub free to use?**
+A: Yes. GitHub allows individual users to create unlimited public and private repositories for free. Students can apply for the [GitHub Education Pack](https://education.github.com/pack) to get additional free tools.
+
+---
+
+## Summary
+
+- **Git** is a local version control tool; **GitHub** is a remote collaboration platform
+- Core operations: `add` → `commit` → `push`, plus `pull` and `clone`
+- Use `.gitignore` to exclude files that should not be tracked
+- Use **branches** for experimental development and **merge** to integrate results
+- **Fork + pull request** is the standard workflow for open source collaboration
+- Develop the habit of committing frequently — each commit should do one thing
+
+---
+
+## Exercises
+
+1. Install Git and complete the initial configuration (username and email)
+2. Create a local Git repository, add several files, and make at least 3 commits
+3. Create a repository on GitHub and push your local repository to GitHub
+4. Create a `.gitignore` file that excludes Python build artifacts and data files
+5. Create a new branch, modify code on the branch, then merge it back to main
+6. Intentionally create a merge conflict and practice resolving it
+7. Practice using `git reset --soft HEAD~1` to undo a commit
+8. Fork an open source project (such as [GitHub's practice repository](https://github.com/octocat/Spoon-Knife)) and create a Pull Request
