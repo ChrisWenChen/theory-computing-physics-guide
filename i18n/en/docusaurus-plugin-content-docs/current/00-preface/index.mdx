@@ -111,21 +111,29 @@ This guide uses the following markers to distinguish platform-specific content:
 
 If your time is limited, here is the **minimum viable path**:
 
-```
-Chapter 0  Preface (you are here)
-  ↓
-Chapter 1  Computer Basics (quick read)
-  ↓
-Chapter 2  Terminal and Command Line ⭐ Core
-  ↓
-Chapter 3  Platform Environment Setup ⭐ Core
-  ↓
-Chapter 7  Git Version Control ⭐ Core
-  ↓
-Chapter 12 Python Environment Management ⭐ Core
-  ↓
-Chapter 13 Scientific Python
-```
+<div style={{maxWidth: '420px', margin: '2rem auto', fontFamily: 'sans-serif'}}>
+  {[
+    { ch: 'Chapter 0',  label: 'Preface',                      note: 'you are here', core: false },
+    { ch: 'Chapter 1',  label: 'Computer Basics',              note: 'quick read',   core: false },
+    { ch: 'Chapter 2',  label: 'Terminal and Command Line',    note: null,           core: true },
+    { ch: 'Chapter 3',  label: 'Platform Environment Setup',   note: null,           core: true },
+    { ch: 'Chapter 7',  label: 'Git Version Control',          note: null,           core: true },
+    { ch: 'Chapter 12', label: 'Python Environment Management',note: null,           core: true },
+    { ch: 'Chapter 13', label: 'Scientific Python',            note: null,           core: true },
+  ].map(({ ch, label, note, core }, i, arr) => (
+    <div key={ch}>
+      <div style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', background: core ? '#4f8ef710' : '#88888810', border: `2px solid ${core ? '#4f8ef7' : '#aaaaaa'}40`}}>
+        <div style={{minWidth: '72px', fontSize: '12px', color: core ? '#4f8ef7' : '#888', fontWeight: '600'}}>{ch}</div>
+        <div style={{flex: 1, fontWeight: '600', fontSize: '15px'}}>{label}</div>
+        {core && <div style={{fontSize: '12px', background: '#4f8ef720', color: '#4f8ef7', padding: '2px 8px', borderRadius: '20px', whiteSpace: 'nowrap'}}>⭐ Core</div>}
+        {note && <div style={{fontSize: '12px', color: '#888', whiteSpace: 'nowrap'}}>{note}</div>}
+      </div>
+      {i < arr.length - 1 && (
+        <div style={{textAlign: 'center', fontSize: '20px', color: '#aaa', lineHeight: '1.4'}}>↓</div>
+      )}
+    </div>
+  ))}
+</div>
 
 After this, you'll have the basic skills needed to start computational physics research.
 
@@ -176,31 +184,32 @@ AI coding assistants (like GitHub Copilot, ChatGPT) are genuinely useful, but if
 
 A typical computational physics research workflow involves:
 
-```
- ┌─────────────────────────────────────────────────────────┐
- │              Research Workflow Overview                  │
- ├─────────────────────────────────────────────────────────┤
- │                                                         │
- │  1. Literature & Notes    ──→  Zotero + Markdown/Obsidian│
- │         ↓                                               │
- │  2. Theory & Derivation   ──→  Pen + Markdown + LaTeX   │
- │         ↓                                               │
- │  3. Write Code            ──→  Editor + Python/C++/Fortran│
- │         ↓                                               │
- │  4. Version Control       ──→  Git + GitHub             │
- │         ↓                                               │
- │  5. Local Testing         ──→  Terminal + Debugger       │
- │         ↓                                               │
- │  6. Submit to Server      ──→  SSH + SLURM              │
- │         ↓                                               │
- │  7. Data Analysis & Plots ──→  NumPy + Matplotlib       │
- │         ↓                                               │
- │  8. Write Paper           ──→  LaTeX + BibTeX           │
- │         ↓                                               │
- │  9. Backup & Archive      ──→  Git + Cloud Storage      │
- │                                                         │
- └─────────────────────────────────────────────────────────┘
-```
+<div style={{maxWidth: '520px', margin: '2rem auto', fontFamily: 'sans-serif'}}>
+  {[
+    { step: '01', label: 'Literature & Notes',     tools: 'Zotero · Markdown · Obsidian',    color: '#4f8ef7' },
+    { step: '02', label: 'Theory & Derivation',    tools: 'Pen & Paper · Markdown · LaTeX',  color: '#7c6af7' },
+    { step: '03', label: 'Write Code',             tools: 'Editor · Python / C++ / Fortran', color: '#a855f7' },
+    { step: '04', label: 'Version Control',        tools: 'Git · GitHub',                    color: '#ec4899' },
+    { step: '05', label: 'Local Testing',          tools: 'Terminal · Debugger',             color: '#f97316' },
+    { step: '06', label: 'Submit to Server',       tools: 'SSH · SLURM',                     color: '#eab308' },
+    { step: '07', label: 'Data Analysis & Plots', tools: 'NumPy · Matplotlib',              color: '#22c55e' },
+    { step: '08', label: 'Write Paper',            tools: 'LaTeX · BibTeX',                  color: '#06b6d4' },
+    { step: '09', label: 'Backup & Archive',       tools: 'Git · Cloud Storage',             color: '#3b82f6' },
+  ].map(({ step, label, tools, color }, i, arr) => (
+    <div key={step}>
+      <div style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '10px', background: color + '18', border: `2px solid ${color}40`}}>
+        <div style={{minWidth: '36px', height: '36px', borderRadius: '50%', background: color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '13px'}}>{step}</div>
+        <div>
+          <div style={{fontWeight: '600', fontSize: '15px'}}>{label}</div>
+          <div style={{fontSize: '13px', color: '#888', marginTop: '2px'}}>{tools}</div>
+        </div>
+      </div>
+      {i < arr.length - 1 && (
+        <div style={{textAlign: 'center', fontSize: '20px', color: '#aaa', lineHeight: '1.4'}}>↓</div>
+      )}
+    </div>
+  ))}
+</div>
 
 This guide covers every technical step in the above workflow **except the physics itself**. It won't teach you quantum mechanics or statistical mechanics, but it will ensure that the technical side never becomes a bottleneck in your research.
 

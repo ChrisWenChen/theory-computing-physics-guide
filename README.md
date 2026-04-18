@@ -1,4 +1,4 @@
-# From Zero: Environment Setup and Software Installation Guide for Theoretical/Computational Physics
+# From Scratch: Computing Environment Setup and Software Guide for Theoretical / Computational Physics
 
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![GitHub Pages](https://github.com/ChrisWenChen/theory-computing-physics-guide/actions/workflows/deploy.yml/badge.svg)](https://github.com/ChrisWenChen/theory-computing-physics-guide/actions/workflows/deploy.yml)

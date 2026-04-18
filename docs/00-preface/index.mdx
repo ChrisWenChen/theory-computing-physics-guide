@@ -111,21 +111,29 @@ sidebar_label: "0. 前言"
 
 如果你时间有限，以下是**最小可行路径**：
 
-```
-第 0 章 前言（你在这里）
-  ↓
-第 1 章 计算机基础（快速浏览）
-  ↓
-第 2 章 终端与命令行 ⭐ 核心
-  ↓
-第 3 章 平台环境准备 ⭐ 核心
-  ↓
-第 7 章 Git 版本控制 ⭐ 核心
-  ↓
-第 12 章 Python 环境管理 ⭐ 核心
-  ↓
-第 13 章 科学 Python
-```
+<div style={{maxWidth: '420px', margin: '2rem auto', fontFamily: 'sans-serif'}}>
+  {[
+    { ch: '第 0 章', label: '前言', note: '你在这里', core: false },
+    { ch: '第 1 章', label: '计算机基础', note: '快速浏览', core: false },
+    { ch: '第 2 章', label: '终端与命令行', note: null, core: true },
+    { ch: '第 3 章', label: '平台环境准备', note: null, core: true },
+    { ch: '第 7 章', label: 'Git 版本控制', note: null, core: true },
+    { ch: '第 12 章', label: 'Python 环境管理', note: null, core: true },
+    { ch: '第 13 章', label: 'Python 科学计算生态', note: null, core: true },
+  ].map(({ ch, label, note, core }, i, arr) => (
+    <div key={ch}>
+      <div style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', background: core ? '#4f8ef710' : '#88888810', border: `2px solid ${core ? '#4f8ef7' : '#aaaaaa'}40`}}>
+        <div style={{minWidth: '60px', fontSize: '12px', color: core ? '#4f8ef7' : '#888', fontWeight: '600'}}>{ch}</div>
+        <div style={{flex: 1, fontWeight: '600', fontSize: '15px'}}>{label}</div>
+        {core && <div style={{fontSize: '12px', background: '#4f8ef720', color: '#4f8ef7', padding: '2px 8px', borderRadius: '20px', whiteSpace: 'nowrap'}}>⭐ 核心</div>}
+        {note && <div style={{fontSize: '12px', color: '#888', whiteSpace: 'nowrap'}}>{note}</div>}
+      </div>
+      {i < arr.length - 1 && (
+        <div style={{textAlign: 'center', fontSize: '20px', color: '#aaa', lineHeight: '1.4'}}>↓</div>
+      )}
+    </div>
+  ))}
+</div>
 
 完成后你就具备了开展计算物理研究的基本能力。
 
@@ -176,31 +184,32 @@ AI 编程助手（如 GitHub Copilot、ChatGPT）确实非常有用，但如果�
 
 一个典型的计算物理科研工作流涉及以下环节：
 
-```
- ┌─────────────────────────────────────────────────────────┐
- │                    科研工作流全景图                        │
- ├─────────────────────────────────────────────────────────┤
- │                                                         │
- │  1. 文献阅读与笔记  ──→  Zotero + Markdown/Obsidian     │
- │         ↓                                               │
- │  2. 理论推导        ──→  纸笔 + Markdown +  LaTeX                    │
- │         ↓                                               │
- │  3. 编写代码        ──→  编辑器 + Python/C++/Fortran     │
- │         ↓                                               │
- │  4. 版本管理        ──→  Git + GitHub                    │
- │         ↓                                               │
- │  5. 本地测试        ──→  终端 + 调试工具                  │
- │         ↓                                               │
- │  6. 提交到服务器    ──→  SSH + SLURM                     │
- │         ↓                                               │
- │  7. 数据分析与可视化 ──→  NumPy + Matplotlib              │
- │         ↓                                               │
- │  8. 撰写论文        ──→  LaTeX + BibTeX                  │
- │         ↓                                               │
- │  9. 备份与归档      ──→  Git + 云存储                     │
- │                                                         │
- └─────────────────────────────────────────────────────────┘
-```
+<div style={{maxWidth: '520px', margin: '2rem auto', fontFamily: 'sans-serif'}}>
+  {[
+    { step: '01', label: '文献阅读与笔记', tools: 'Zotero · Markdown · Obsidian', color: '#4f8ef7' },
+    { step: '02', label: '理论推导',       tools: '纸笔 · Markdown · LaTeX',       color: '#7c6af7' },
+    { step: '03', label: '编写代码',       tools: '编辑器 · Python / C++ / Fortran', color: '#a855f7' },
+    { step: '04', label: '版本管理',       tools: 'Git · GitHub',                  color: '#ec4899' },
+    { step: '05', label: '本地测试',       tools: '终端 · 调试工具',                color: '#f97316' },
+    { step: '06', label: '提交到服务器',   tools: 'SSH · SLURM',                   color: '#eab308' },
+    { step: '07', label: '数据分析与可视化', tools: 'NumPy · Matplotlib',           color: '#22c55e' },
+    { step: '08', label: '撰写论文',       tools: 'LaTeX · BibTeX',                color: '#06b6d4' },
+    { step: '09', label: '备份与归档',     tools: 'Git · 云存储',                  color: '#3b82f6' },
+  ].map(({ step, label, tools, color }, i, arr) => (
+    <div key={step}>
+      <div style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '10px', background: color + '18', border: `2px solid ${color}40`}}>
+        <div style={{minWidth: '36px', height: '36px', borderRadius: '50%', background: color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '13px'}}>{step}</div>
+        <div>
+          <div style={{fontWeight: '600', fontSize: '15px'}}>{label}</div>
+          <div style={{fontSize: '13px', color: '#888', marginTop: '2px'}}>{tools}</div>
+        </div>
+      </div>
+      {i < arr.length - 1 && (
+        <div style={{textAlign: 'center', fontSize: '20px', color: '#aaa', lineHeight: '1.4'}}>↓</div>
+      )}
+    </div>
+  ))}
+</div>
 
 本教程覆盖了上述流程中**除了物理本身以外**的所有技术环节。它不会教你量子力学或统计力学，但会确保你在技术层面不会成为自己科研的瓶颈。
 
