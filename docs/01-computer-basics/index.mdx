@@ -35,34 +35,42 @@ sidebar_label: "1. 计算机与操作系统基础"
 一台计算机可以简化为四个部分：
 
 <div style={{margin: '2rem auto', maxWidth: '600px', fontFamily: 'sans-serif'}}>
-  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px'}}>
-    <div style={{padding: '12px 16px', borderRadius: '10px', background: '#4f8ef718', border: '2px solid #4f8ef740', textAlign: 'center', minWidth: '110px'}}>
+  <div style={{display: 'grid', gridTemplateColumns: '1fr auto 1fr auto 1fr', alignItems: 'center', gap: '8px'}}>
+    <div style={{padding: '12px 16px', borderRadius: '10px', background: '#4f8ef718', border: '2px solid #4f8ef740', textAlign: 'center'}}>
       <div style={{fontSize: '22px'}}>⌨️</div>
       <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>输入设备</div>
       <div style={{fontSize: '12px', color: '#888'}}>键盘、鼠标</div>
     </div>
-    <div style={{fontSize: '24px', color: '#aaa'}}>→</div>
-    <div style={{padding: '12px 16px', borderRadius: '10px', background: '#a855f718', border: '2px solid #a855f740', textAlign: 'center', minWidth: '130px'}}>
+    <div style={{fontSize: '24px', color: '#aaa', textAlign: 'center'}}>→</div>
+    <div style={{padding: '12px 16px', borderRadius: '10px', background: '#a855f718', border: '2px solid #a855f740', textAlign: 'center'}}>
       <div style={{fontSize: '22px'}}>⚙️</div>
       <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>处理器 (CPU)</div>
       <div style={{fontSize: '12px', color: '#888'}}>+ 内存 (RAM)</div>
     </div>
-    <div style={{fontSize: '24px', color: '#aaa'}}>→</div>
-    <div style={{padding: '12px 16px', borderRadius: '10px', background: '#22c55e18', border: '2px solid #22c55e40', textAlign: 'center', minWidth: '110px'}}>
+    <div style={{fontSize: '24px', color: '#aaa', textAlign: 'center'}}>→</div>
+    <div style={{padding: '12px 16px', borderRadius: '10px', background: '#22c55e18', border: '2px solid #22c55e40', textAlign: 'center'}}>
       <div style={{fontSize: '22px'}}>🖥️</div>
       <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>输出设备</div>
       <div style={{fontSize: '12px', color: '#888'}}>显示器、文件</div>
     </div>
   </div>
-  <div style={{display: 'flex', justifyContent: 'center', marginTop: '4px'}}>
-    <div style={{marginLeft: '122px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <div style={{fontSize: '20px', color: '#aaa', lineHeight: '1'}}>↕</div>
-      <div style={{padding: '10px 16px', borderRadius: '10px', background: '#eab30818', border: '2px solid #eab30840', textAlign: 'center', minWidth: '130px', marginTop: '4px'}}>
-        <div style={{fontSize: '22px'}}>💾</div>
-        <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>存储</div>
-        <div style={{fontSize: '12px', color: '#888'}}>硬盘 / SSD</div>
-      </div>
+  <div style={{display: 'grid', gridTemplateColumns: '1fr auto 1fr auto 1fr'}}>
+    <div />
+    <div />
+    <div style={{textAlign: 'center', fontSize: '20px', color: '#aaa', padding: '4px 0'}}>↕</div>
+    <div />
+    <div />
+  </div>
+  <div style={{display: 'grid', gridTemplateColumns: '1fr auto 1fr auto 1fr'}}>
+    <div />
+    <div />
+    <div style={{padding: '10px 16px', borderRadius: '10px', background: '#eab30818', border: '2px solid #eab30840', textAlign: 'center'}}>
+      <div style={{fontSize: '22px'}}>💾</div>
+      <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>存储</div>
+      <div style={{fontSize: '12px', color: '#888'}}>硬盘 / SSD</div>
     </div>
+    <div />
+    <div />
   </div>
 </div>
 
