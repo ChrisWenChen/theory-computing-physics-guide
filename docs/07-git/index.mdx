@@ -149,21 +149,54 @@ git merge feature        # 将 feature 合并到 main
 
 ### 工作流程图
 
-```
-工作区（Working Directory）
-    │
-    │  git add
-    ▼
-暂存区（Staging Area）
-    │
-    │  git commit
-    ▼
-本地仓库（Local Repository）
-    │
-    │  git push
-    ▼
-远程仓库（Remote Repository, e.g., GitHub）
-```
+<div style={{maxWidth: '320px', margin: '2rem auto', fontFamily: 'sans-serif'}}>
+
+  <div style={{padding: '12px 16px', borderRadius: '10px', background: '#f9731618', border: '2px solid #f9731640', textAlign: 'center'}}>
+    <div style={{fontSize: '22px'}}>📝</div>
+    <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>工作区</div>
+    <div style={{fontSize: '12px', color: '#888'}}>Working Directory</div>
+  </div>
+
+  <div style={{textAlign: 'center', padding: '6px 0'}}>
+    <div style={{fontSize: '12px', color: '#a855f7', fontWeight: '700', fontFamily: 'monospace'}}>git add</div>
+    <div style={{fontSize: '18px', color: '#bbb', lineHeight: '1'}}>↓</div>
+  </div>
+
+  <div style={{padding: '12px 16px', borderRadius: '10px', background: '#a855f718', border: '2px solid #a855f740', textAlign: 'center'}}>
+    <div style={{fontSize: '22px'}}>📦</div>
+    <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>暂存区</div>
+    <div style={{fontSize: '12px', color: '#888'}}>Staging Area</div>
+  </div>
+
+  <div style={{textAlign: 'center', padding: '6px 0'}}>
+    <div style={{fontSize: '12px', color: '#4f8ef7', fontWeight: '700', fontFamily: 'monospace'}}>git commit</div>
+    <div style={{fontSize: '18px', color: '#bbb', lineHeight: '1'}}>↓</div>
+  </div>
+
+  <div style={{padding: '12px 16px', borderRadius: '10px', background: '#4f8ef718', border: '2px solid #4f8ef740', textAlign: 'center'}}>
+    <div style={{fontSize: '22px'}}>🗄️</div>
+    <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>本地仓库</div>
+    <div style={{fontSize: '12px', color: '#888'}}>Local Repository</div>
+  </div>
+
+  <div style={{display: 'flex', justifyContent: 'center', gap: '40px', padding: '6px 0', alignItems: 'flex-start'}}>
+    <div style={{textAlign: 'center'}}>
+      <div style={{fontSize: '12px', color: '#22c55e', fontWeight: '700', fontFamily: 'monospace'}}>git push</div>
+      <div style={{fontSize: '18px', color: '#bbb', lineHeight: '1'}}>↓</div>
+    </div>
+    <div style={{textAlign: 'center'}}>
+      <div style={{fontSize: '18px', color: '#bbb', lineHeight: '1'}}>↑</div>
+      <div style={{fontSize: '12px', color: '#22c55e', fontWeight: '700', fontFamily: 'monospace'}}>git pull</div>
+    </div>
+  </div>
+
+  <div style={{padding: '12px 16px', borderRadius: '10px', background: '#22c55e18', border: '2px solid #22c55e40', textAlign: 'center'}}>
+    <div style={{fontSize: '22px'}}>☁️</div>
+    <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>远程仓库</div>
+    <div style={{fontSize: '12px', color: '#888'}}>Remote Repository（GitHub 等）</div>
+  </div>
+
+</div>
 
 ### git clone：克隆远程仓库
 
