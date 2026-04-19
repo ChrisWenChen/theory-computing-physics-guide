@@ -138,6 +138,8 @@ This is one of the most commonly confused concepts for beginners.
 
 **What happens when memory runs out?**
 
+Before running large arrays, estimate the memory first: `float64` takes **8 bytes** per element, so 10⁵ × 10⁴ = 10⁹ elements × 8 bytes = **8 GB**.
+
 ```python
 # This array requires ~8 GB of memory
 import numpy as np
@@ -162,15 +164,25 @@ If your computer only has 8 GB of RAM, running this will likely cause the progra
 
 An **Operating System (OS)** is system software that manages a computer's hardware and software resources. It is the "translator" between you and the hardware.
 
-```
-  You (user)
-     ↓
-  Applications (Python, VS Code, browser...)
-     ↓
-  Operating System (macOS / Linux / Windows)
-     ↓
-  Hardware (CPU, memory, disk, GPU...)
-```
+<div style={{maxWidth: '320px', margin: '2rem auto', fontFamily: 'sans-serif'}}>
+  {[
+    { icon: '🧑‍💻', label: 'You (User)',          sub: null,                              color: '#4f8ef7' },
+    { icon: '📦', label: 'Applications',          sub: 'Python · VS Code · Browser',      color: '#a855f7' },
+    { icon: '🖥️', label: 'Operating System',     sub: 'macOS / Linux / Windows',         color: '#f97316' },
+    { icon: '⚙️', label: 'Hardware',             sub: 'CPU · RAM · Disk · GPU',           color: '#22c55e' },
+  ].map(({ icon, label, sub, color }, i, arr) => (
+    <div key={label}>
+      <div style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '10px', background: color + '18', border: `2px solid ${color}40`}}>
+        <div style={{fontSize: '22px'}}>{icon}</div>
+        <div>
+          <div style={{fontWeight: '600', fontSize: '15px'}}>{label}</div>
+          {sub && <div style={{fontSize: '12px', color: '#888', marginTop: '2px'}}>{sub}</div>}
+        </div>
+      </div>
+      {i < arr.length - 1 && <div style={{textAlign: 'center', fontSize: '20px', color: '#aaa', lineHeight: '1.6'}}>↓</div>}
+    </div>
+  ))}
+</div>
 
 ### The Three Major Operating Systems
 
@@ -185,6 +197,7 @@ An **Operating System (OS)** is system software that manages a computer's hardwa
 - Nearly all supercomputers and computing clusters run Linux
 - Most scientific software targets Linux first
 - The command-line toolchain is most complete
+- Better performance scheduling and resource utilization
 - Free and open source — no licensing costs for university servers
 
 This doesn't mean you have to install Linux on your personal computer. macOS is naturally Unix-like, and Windows with WSL can provide a Linux environment.
@@ -242,11 +255,30 @@ Renaming `.txt` to `.py` doesn't make a text file into a Python program. An exte
 
 ## 1.6 Processes, Threads, and Programs
 
-| Concept | Analogy | Explanation |
-|---------|---------|-------------|
-| **Program** | A recipe | Code/instructions stored on disk; static |
-| **Process** | Cooking in progress | A program loaded into memory and executing; dynamic |
-| **Thread** | Steps in the cooking process | Multiple threads within a process can execute in parallel |
+| Concept | A Better Analogy | Meaning |
+|---------|-----------------|---------|
+| **Program** | A recipe | Code stored on disk — a static set of instructions |
+| **Process** | An active cooking session (the kitchen in action) | A running instance of a program, with its own memory and resources |
+| **Thread** | A specific worker in the kitchen (one line of work) | An execution flow inside a process; multiple threads can run concurrently |
+
+<div style={{margin: '1.5rem auto', maxWidth: '480px', fontFamily: 'sans-serif'}}>
+  <div style={{display: 'flex', gap: '12px', alignItems: 'flex-start'}}>
+    <div style={{padding: '10px 14px', borderRadius: '10px', background: '#eab30818', border: '2px solid #eab30840', textAlign: 'center', minWidth: '80px'}}>
+      <div style={{fontSize: '28px'}}>📄</div>
+      <div style={{fontWeight: '600', fontSize: '13px', marginTop: '4px'}}>Program</div>
+      <div style={{fontSize: '11px', color: '#888'}}>Recipe on disk</div>
+    </div>
+    <div style={{fontSize: '22px', color: '#aaa', alignSelf: 'center'}}>→</div>
+    <div style={{flex: 1, padding: '10px 14px', borderRadius: '10px', background: '#a855f718', border: '2px solid #a855f740'}}>
+      <div style={{fontWeight: '600', fontSize: '13px', marginBottom: '8px'}}>🍳 Process (the kitchen)</div>
+      <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
+        {['🧑‍🍳 Thread 1', '🧑‍🍳 Thread 2', '🧑‍🍳 Thread 3'].map(t => (
+          <div key={t} style={{padding: '4px 10px', borderRadius: '8px', background: '#4f8ef720', border: '1px solid #4f8ef740', fontSize: '12px'}}>{t}</div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
 
 ```bash
 # View currently running processes
@@ -289,7 +321,7 @@ for n in range(5):
     print(f"n = {n}, E = {E:.4e} J")
 ```
 
-You don't need to become a "programmer." For physics students, programming is a **tool** — like mathematics. You need to master it to the extent that it lets you solve your physics problems.
+You don't need to become a "programmer" — you don't need to build polished applications or design complex multi-interface systems. For physics students, programming is a **tool** — like mathematics. You need to master it to the extent that it lets you solve your physics problems.
 
 ### Programming Languages Common in Research
 
