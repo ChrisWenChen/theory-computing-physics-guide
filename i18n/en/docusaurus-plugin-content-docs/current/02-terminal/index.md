@@ -59,16 +59,36 @@ This is called a **prompt**, and it is waiting for you to enter a command.
 
 ## 2.2 What Is a Shell
 
-A **Shell** is the program behind the terminal that actually interprets and executes your commands. The terminal is just the "window"; the Shell is the "brain."
+A Shell is a **command interpreter**. When you type a command in the terminal, the Shell reads, parses, and executes it.
+
+For example, when you type:
+
+```bash
+pwd
+```
+
+The Shell runs the command and displays the result.
+
+Note that a Shell and a terminal are **not the same thing**:
+
+- **Terminal**: the interface where you type commands and see output
+- **Shell**: the interpreter that actually runs inside that interface
+
+Think of it this way:
+
+> Terminal = the chat window; Shell = the person who understands and carries out your instructions
+
+Common shells:
 
 | Shell | System | Description |
 |-------|--------|-------------|
 | **bash** | Linux default | The most universal; available on virtually all Linux systems |
 | **zsh** | macOS default | An enhanced version of bash with more features |
 | **PowerShell** | Windows default | Syntax differs significantly from bash |
+| **cmd** | Windows legacy | Limited functionality; rarely used in research |
 
-:::tip Recommendation
-If you use Windows, it is strongly recommended to install WSL and use bash/zsh, so you can use the same commands as macOS/Linux users. The command examples in this tutorial default to bash syntax.
+:::tip Windows users
+Install WSL and use bash/zsh inside it — you'll be able to follow the same commands as macOS/Linux users. **This tutorial defaults to bash syntax throughout.**
 :::
 
 ### Check Your Current Shell
@@ -84,12 +104,43 @@ echo $SHELL
 |---------|------------------------------|-------------------------------|
 | Interaction | Type text commands | Mouse clicks |
 | Learning curve | Steeper | Gentler |
-| Batch operations | Very convenient | Difficult |
-| Remote use | Convenient (SSH) | Requires additional tools |
-| Scriptability | Native support | Very difficult |
+| Batch operations | Very convenient | More difficult |
+| Remote use | Convenient (SSH) | Often requires extra tools |
+| Scriptability | Native support | Hard |
 | Precise control | High | Medium |
 
-**In research, the two complement each other**. You might use a GUI editor to write code, but use the CLI to compile and run it.
+In research, the two are typically **complementary**: you might use a GUI editor to write code, but use the CLI to compile, run, debug, and batch-process data.
+
+### Example: Processing Experiment Data
+
+Say you ran 100 experiments and each produced a data file.
+
+**With a GUI**, you'd: open the folder → click through files one by one → manually copy, rename, and organize → import into analysis software. Intuitive, but slow and error-prone at scale.
+
+**With the CLI**, three commands do the job:
+
+```bash
+mkdir results          # create a results folder
+mv *.csv results/      # move all CSV files into it
+wc -l results/*.csv    # count the lines in each file
+```
+
+If you need to repeat this regularly, wrap it in a script and run it in one go.
+
+### Example: Edit Locally, Run Remotely
+
+You write your program locally in VS Code (GUI), then use the CLI for the rest:
+
+```bash
+gcc main.c -o main     # compile
+./main                 # run
+
+ssh user@server        # log into a remote server to continue
+```
+
+:::tip CLI in the Age of AI
+With AI coding assistants (Claude, GitHub Copilot, etc.), the CLI is easier to use than ever — describe what you want in plain English, let the AI generate the command, and paste it into your terminal. **Understanding CLI basics is what makes AI assistants genuinely useful to you.**
+:::
 
 ## 2.4 Basic Commands: pwd, ls, cd, mkdir, cp, mv, rm
 
