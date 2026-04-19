@@ -113,11 +113,13 @@ Termius 是一个**商业 SSH 客户端**，支持 macOS、Windows、Linux、iOS
 # macOS
 brew install --cask termius
 
-# Windows（scoop）
-scoop install termius
+# Windows（winget）
+winget install Termius.Termius
 
-# Linux
-sudo snap install termius-app
+# Linux（从官网下载 .deb 安装包）
+# 访问 https://termius.com/download/linux 下载最新 .deb
+sudo dpkg -i termius_*.deb
+sudo apt install -f    # 自动补全缺少的依赖
 ```
 
 ### 配置步骤
@@ -151,14 +153,14 @@ Tailscale 基于 WireGuard 协议，将你的多台设备组成一个**虚拟局
 
 ```bash
 # macOS
-brew install tailscale
+brew install --cask tailscale
 
-# Ubuntu/Debian
+# Windows（winget）
+winget install Tailscale.Tailscale
+
+# Ubuntu/Debian（官方脚本，自动配置 apt 源并安装）
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
-
-# Windows
-# 从 https://tailscale.com/download 下载安装包
 ```
 
 ### 使用流程
@@ -218,13 +220,16 @@ ssh user@100.64.0.2
 # macOS
 brew install --cask anydesk
 
-# Ubuntu
-# 从 https://anydesk.com/en/downloads 下载 .deb 包
-sudo dpkg -i anydesk_*.deb
+# Windows（winget）
+winget install AnyDesk.AnyDesk
 
-# Windows
-# 从官网下载安装包或：
-scoop install anydesk
+# Ubuntu（配置官方 apt 源）
+wget -qO- https://keys.anydesk.com/repos/DEB-GPG-KEY \
+  | gpg --dearmor \
+  | sudo tee /etc/apt/keyrings/anydesk.gpg > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/anydesk.gpg] http://deb.anydesk.com/ all main" \
+  | sudo tee /etc/apt/sources.list.d/anydesk.list
+sudo apt update && sudo apt install anydesk
 ```
 
 ### 使用方式

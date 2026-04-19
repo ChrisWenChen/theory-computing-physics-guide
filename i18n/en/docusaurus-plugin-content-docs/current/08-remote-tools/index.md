@@ -113,11 +113,13 @@ For most cases, the `ssh` command in the terminal is perfectly sufficient. Termi
 # macOS
 brew install --cask termius
 
-# Windows (scoop)
-scoop install termius
+# Windows (winget)
+winget install Termius.Termius
 
-# Linux
-sudo snap install termius-app
+# Linux (download .deb from the official site)
+# Visit https://termius.com/download/linux for the latest .deb
+sudo dpkg -i termius_*.deb
+sudo apt install -f    # install any missing dependencies
 ```
 
 ### Configuration Steps
@@ -151,14 +153,14 @@ Tailscale is based on the WireGuard protocol and connects your devices into a **
 
 ```bash
 # macOS
-brew install tailscale
+brew install --cask tailscale
 
-# Ubuntu/Debian
+# Windows (winget)
+winget install Tailscale.Tailscale
+
+# Ubuntu/Debian (official script — sets up an apt repo and installs)
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
-
-# Windows
-# Download the installer from https://tailscale.com/download
 ```
 
 ### Usage Flow
@@ -218,13 +220,16 @@ ssh user@100.64.0.2
 # macOS
 brew install --cask anydesk
 
-# Ubuntu
-# Download the .deb package from https://anydesk.com/en/downloads
-sudo dpkg -i anydesk_*.deb
+# Windows (winget)
+winget install AnyDesk.AnyDesk
 
-# Windows
-# Download from the official website or:
-scoop install anydesk
+# Ubuntu (official apt repository)
+wget -qO- https://keys.anydesk.com/repos/DEB-GPG-KEY \
+  | gpg --dearmor \
+  | sudo tee /etc/apt/keyrings/anydesk.gpg > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/anydesk.gpg] http://deb.anydesk.com/ all main" \
+  | sudo tee /etc/apt/sources.list.d/anydesk.list
+sudo apt update && sudo apt install anydesk
 ```
 
 ### How to Use
