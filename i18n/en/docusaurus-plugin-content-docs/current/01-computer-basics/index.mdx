@@ -34,7 +34,7 @@ You don't need deep hardware knowledge, but **building the right mental model** 
 
 A computer can be simplified into four parts:
 
-<div style={{margin: '2rem auto', maxWidth: '600px', fontFamily: 'sans-serif'}}>
+<div style={{margin: '2rem auto', maxWidth: '640px', fontFamily: 'sans-serif'}}>
   <div style={{display: 'grid', gridTemplateColumns: '1fr auto 1fr auto 1fr', alignItems: 'center', gap: '8px'}}>
     <div style={{padding: '12px 16px', borderRadius: '10px', background: '#4f8ef718', border: '2px solid #4f8ef740', textAlign: 'center'}}>
       <div style={{fontSize: '22px'}}>⌨️</div>
@@ -42,10 +42,17 @@ A computer can be simplified into four parts:
       <div style={{fontSize: '12px', color: '#888'}}>keyboard, mouse</div>
     </div>
     <div style={{fontSize: '24px', color: '#aaa', textAlign: 'center'}}>→</div>
-    <div style={{padding: '12px 16px', borderRadius: '10px', background: '#a855f718', border: '2px solid #a855f740', textAlign: 'center'}}>
-      <div style={{fontSize: '22px'}}>⚙️</div>
-      <div style={{fontWeight: '600', fontSize: '14px', marginTop: '4px'}}>Processor (CPU)</div>
-      <div style={{fontSize: '12px', color: '#888'}}>+ Memory (RAM)</div>
+    <div style={{display: 'flex', flexDirection: 'column', gap: '6px'}}>
+      <div style={{padding: '10px 14px', borderRadius: '10px', background: '#a855f718', border: '2px solid #a855f740', textAlign: 'center'}}>
+        <div style={{fontSize: '20px'}}>⚙️</div>
+        <div style={{fontWeight: '600', fontSize: '13px', marginTop: '2px'}}>CPU</div>
+        <div style={{fontSize: '11px', color: '#888'}}>+ Memory (RAM)</div>
+      </div>
+      <div style={{padding: '10px 14px', borderRadius: '10px', background: '#ec489918', border: '2px solid #ec489940', textAlign: 'center'}}>
+        <div style={{fontSize: '20px'}}>🎮</div>
+        <div style={{fontWeight: '600', fontSize: '13px', marginTop: '2px'}}>GPU</div>
+        <div style={{fontSize: '11px', color: '#888'}}>+ VRAM</div>
+      </div>
     </div>
     <div style={{fontSize: '24px', color: '#aaa', textAlign: 'center'}}>→</div>
     <div style={{padding: '12px 16px', borderRadius: '10px', background: '#22c55e18', border: '2px solid #22c55e40', textAlign: 'center'}}>
