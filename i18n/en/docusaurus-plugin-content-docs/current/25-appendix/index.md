@@ -104,14 +104,14 @@ This chapter is a reference appendix for the entire book, providing:
 
 ### Package Managers
 
-| Operation | macOS (Homebrew) | Ubuntu (apt) | Windows (scoop) |
-|-----------|-----------------|--------------|-----------------|
-| Install package | `brew install X` | `sudo apt install X` | `scoop install X` |
-| Search package | `brew search X` | `apt search X` | `scoop search X` |
-| Upgrade package | `brew upgrade X` | `sudo apt upgrade X` | `scoop update X` |
-| Uninstall package | `brew uninstall X` | `sudo apt remove X` | `scoop uninstall X` |
-| Update index | `brew update` | `sudo apt update` | `scoop update` |
-| List installed | `brew list` | `apt list --installed` | `scoop list` |
+| Operation | macOS (Homebrew) | Ubuntu (apt) | Windows (winget) |
+|-----------|-----------------|--------------|------------------|
+| Install package | `brew install X` | `sudo apt install X` | `winget install X` |
+| Search package | `brew search X` | `apt search X` | `winget search X` |
+| Upgrade package | `brew upgrade X` | `sudo apt upgrade X` | `winget upgrade X` |
+| Uninstall package | `brew uninstall X` | `sudo apt remove X` | `winget uninstall X` |
+| Update index | `brew update` | `sudo apt update` | (automatic) |
+| List installed | `brew list` | `apt list --installed` | `winget list` |
 
 ### System Operations
 
@@ -128,7 +128,7 @@ This chapter is a reference appendix for the entire book, providing:
 
 | Operation | macOS | Ubuntu | Windows |
 |-----------|-------|--------|---------|
-| Install Python | `brew install python` | `sudo apt install python3` | `scoop install python` |
+| Install Python | `brew install python` | `sudo apt install python3` | `winget install Python.Python.3.12` |
 | Invoke Python | `python3` | `python3` | `python` or `python3` |
 | Create virtual env | `python3 -m venv .venv` | `python3 -m venv .venv` | `python -m venv .venv` |
 | Activate virtual env | `source .venv/bin/activate` | `source .venv/bin/activate` | `.venv\Scripts\activate` (PS) or `source .venv/bin/activate` (WSL) |

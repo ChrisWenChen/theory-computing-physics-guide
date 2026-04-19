@@ -133,47 +133,27 @@ sudo apt update
 
 ---
 
-## 4.4 Windows: winget / scoop
+## 4.4 Windows: winget
 
 ### winget (Built into Windows)
 
-Windows 10/11 comes with `winget` (Windows Package Manager):
+Windows 10/11 comes with `winget` (Windows Package Manager), the recommended package manager for Windows:
 
 ```powershell
-winget search python          # Search
+winget search python                # Search
 winget install Python.Python.3.12   # Install
 winget upgrade Python.Python.3.12   # Upgrade
 winget uninstall Python.Python.3.12 # Uninstall
-winget list                   # List installed packages
+winget list                         # List installed packages
+winget upgrade --all                # Upgrade all installed packages
 ```
 
-### scoop (Recommended for Developers)
-
-[Scoop](https://scoop.sh) is better suited for developers and does not require administrator privileges to install software:
-
-```powershell
-# Install scoop (run in PowerShell)
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-
-# Common commands
-scoop search git
-scoop install git
-scoop update git
-scoop uninstall git
-scoop list
-```
-
-Add commonly used buckets (software sources):
-
-```powershell
-scoop bucket add extras
-scoop bucket add versions
-scoop bucket add java
-```
+:::tip About Scoop
+[Scoop](https://scoop.sh) is a community package manager that installs software without administrator privileges, suited for advanced users who manage multiple toolchain versions. winget covers enough software for everyday research use — prefer winget for simplicity.
+:::
 
 :::tip WSL Users
-If you are already using WSL (Windows Subsystem for Linux), use `apt` directly within the Linux environment — the experience is identical to native Ubuntu. Use `winget` or `scoop` to manage tools on the Windows side.
+If you are already using WSL (Windows Subsystem for Linux), use `apt` directly within the Linux environment — the experience is identical to native Ubuntu. Manage Windows-side tools with `winget`.
 :::
 
 ---
@@ -182,14 +162,14 @@ If you are already using WSL (Windows Subsystem for Linux), use `apt` directly w
 
 The following table summarizes common operations across the three platforms:
 
-| Operation | macOS (Homebrew) | Ubuntu (apt) | Windows (scoop) |
-|-----------|-----------------|--------------|-----------------|
-| Search | `brew search X` | `apt search X` | `scoop search X` |
-| Install | `brew install X` | `sudo apt install X` | `scoop install X` |
-| Upgrade | `brew upgrade X` | `sudo apt upgrade X` | `scoop update X` |
-| Uninstall | `brew uninstall X` | `sudo apt remove X` | `scoop uninstall X` |
-| List installed | `brew list` | `apt list --installed` | `scoop list` |
-| Update index | `brew update` | `sudo apt update` | `scoop update` |
+| Operation | macOS (Homebrew) | Ubuntu (apt) | Windows (winget) |
+|-----------|-----------------|--------------|------------------|
+| Search | `brew search X` | `apt search X` | `winget search X` |
+| Install | `brew install X` | `sudo apt install X` | `winget install X` |
+| Upgrade | `brew upgrade X` | `sudo apt upgrade X` | `winget upgrade X` |
+| Uninstall | `brew uninstall X` | `sudo apt remove X` | `winget uninstall X` |
+| List installed | `brew list` | `apt list --installed` | `winget list` |
+| Update index | `brew update` | `sudo apt update` | (automatic) |
 
 ---
 
@@ -297,12 +277,13 @@ sudo apt install -y git wget curl tree htop cmake build-essential
 sudo apt install -y python3 python3-pip python3-venv
 ```
 
-### Windows (scoop)
+### Windows (winget)
 
 ```powershell
-scoop install git wget curl python cmake
-scoop bucket add extras
-scoop install vscode
+winget install Git.Git
+winget install Python.Python.3.12
+winget install Kitware.CMake
+winget install Microsoft.VisualStudioCode
 ```
 
 ### Verify Installation
@@ -328,18 +309,15 @@ A: Configure the Tsinghua or USTC mirror source; see Section 4.2.
 **Q: `pip install` on Ubuntu gives the error "externally-managed-environment"?**
 A: Ubuntu 23.04+ enables PEP 668 protection by default. Use a virtual environment: `python3 -m venv myenv && source myenv/bin/activate`.
 
-**Q: Should I use scoop or winget on Windows?**
-A: For development tools, scoop is recommended (no admin privileges needed, better path management). For regular GUI applications, you can use winget. The two can coexist.
-
 **Q: Where does the package manager install software?**
-A: Homebrew installs to `/opt/homebrew/` (Apple Silicon) or `/usr/local/` (Intel). apt installs to `/usr/`. scoop installs to `~/scoop/`.
+A: Homebrew installs to `/opt/homebrew/` (Apple Silicon) or `/usr/local/` (Intel). apt installs to `/usr/`. winget typically installs to `Program Files` or the user directory.
 
 ---
 
 ## Summary
 
 - Package managers are essential tools for modern development and research — **always prefer using a package manager to install software**
-- macOS uses **Homebrew**, Ubuntu uses **apt**, Windows uses **scoop** or **winget**
+- macOS uses **Homebrew**, Ubuntu uses **apt**, Windows uses **winget**
 - Users in mainland China should configure **mirror sources** to speed up downloads
 - When encountering issues, first check PATH, permissions, and network connectivity
 

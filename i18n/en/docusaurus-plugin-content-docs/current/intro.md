@@ -85,7 +85,7 @@ Each chapter contains four parts:
 :::caution Common Pitfalls
 - **"I'll install everything first before I start learning"** — No need. Install as needed, learn as you go.
 - **"I need to finish learning Python before anything else"** — Environment setup and language learning can proceed in parallel.
-- **"You can't do research on Windows"** — Yes you can, using WSL or scoop.
+- **"You can't do research on Windows"** — Yes you can, using WSL or winget.
 - **"I can just copy and paste commands"** — Understanding is more important than copying; otherwise you won't be able to troubleshoot when problems arise.
 - **"AI can learn for me"** — AI is an assistant, not a replacement. You need to understand what it's doing.
 :::

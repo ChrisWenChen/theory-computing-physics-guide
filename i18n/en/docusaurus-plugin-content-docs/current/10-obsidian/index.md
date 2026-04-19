@@ -78,12 +78,12 @@ Obsidian is a **local-first** Markdown note-taking tool. All notes are saved as 
 brew install --cask obsidian
 
 # Windows
-scoop install obsidian
-# Or download from https://obsidian.md
+winget install Obsidian.Obsidian
 
-# Linux
-# Download the AppImage from the official website or:
-sudo snap install obsidian
+# Linux (download the .deb package from the official site)
+# Visit https://obsidian.md/download and download the .deb
+sudo dpkg -i obsidian_*.deb
+sudo apt install -f    # install any missing dependencies
 ```
 
 ### Core Concepts

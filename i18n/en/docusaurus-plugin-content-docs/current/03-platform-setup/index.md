@@ -158,16 +158,7 @@ winget upgrade --all
 
 #### Scoop — Lightweight Community Package Manager
 
-Scoop focuses on developer tools. It installs software without polluting the system environment and requires no administrator privileges:
-
-```powershell
-# Install Scoop
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-
-# Install common tools
-scoop install git python gcc make
-```
+Scoop focuses on developer tools and installs software without requiring administrator privileges. It suits advanced users who need to manage multiple toolchain versions. See [scoop.sh](https://scoop.sh) for setup. For everyday use, prefer winget.
 
 #### MSYS2 — GCC Toolchain for Windows
 

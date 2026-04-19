@@ -133,47 +133,27 @@ sudo apt update
 
 ---
 
-## 4.4 Windows: winget / scoop
+## 4.4 Windows: winget
 
 ### winget（Windows 自带）
 
-Windows 10/11 自带 `winget`（Windows Package Manager）：
+Windows 10/11 自带 `winget`（Windows Package Manager），是 Windows 上的首选包管理器：
 
 ```powershell
-winget search python          # 搜索
+winget search python                # 搜索
 winget install Python.Python.3.12   # 安装
 winget upgrade Python.Python.3.12   # 升级
 winget uninstall Python.Python.3.12 # 卸载
-winget list                   # 列出已安装的包
+winget list                         # 列出已安装的包
+winget upgrade --all                # 升级所有已安装的包
 ```
 
-### scoop（推荐给开发者）
-
-[Scoop](https://scoop.sh) 更适合开发者，安装软件不需要管理员权限：
-
-```powershell
-# 安装 scoop（在 PowerShell 中执行）
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-
-# 常用命令
-scoop search git
-scoop install git
-scoop update git
-scoop uninstall git
-scoop list
-```
-
-添加常用 bucket（软件源）：
-
-```powershell
-scoop bucket add extras
-scoop bucket add versions
-scoop bucket add java
-```
+:::tip 关于 Scoop
+[Scoop](https://scoop.sh) 是另一个社区包管理器，安装软件无需管理员权限，适合需要管理多版本工具链的高级用户。winget 覆盖的软件已经足够日常科研使用，建议优先使用 winget。
+:::
 
 :::tip WSL 用户
-如果你已经在使用 WSL（Windows Subsystem for Linux），Linux 环境内直接使用 `apt`，与原生 Ubuntu 体验一致。Windows 侧的工具用 `winget` 或 `scoop` 管理。
+如果你已经在使用 WSL（Windows Subsystem for Linux），Linux 环境内直接使用 `apt`，与原生 Ubuntu 体验一致。Windows 侧的工具用 `winget` 管理。
 :::
 
 ---
@@ -182,14 +162,14 @@ scoop bucket add java
 
 下表总结了三大平台的常用操作：
 
-| 操作 | macOS (Homebrew) | Ubuntu (apt) | Windows (scoop) |
-|------|-----------------|--------------|-----------------|
-| 搜索 | `brew search X` | `apt search X` | `scoop search X` |
-| 安装 | `brew install X` | `sudo apt install X` | `scoop install X` |
-| 升级 | `brew upgrade X` | `sudo apt upgrade X` | `scoop update X` |
-| 卸载 | `brew uninstall X` | `sudo apt remove X` | `scoop uninstall X` |
-| 列出已安装 | `brew list` | `apt list --installed` | `scoop list` |
-| 更新索引 | `brew update` | `sudo apt update` | `scoop update` |
+| 操作 | macOS (Homebrew) | Ubuntu (apt) | Windows (winget) |
+|------|-----------------|--------------|------------------|
+| 搜索 | `brew search X` | `apt search X` | `winget search X` |
+| 安装 | `brew install X` | `sudo apt install X` | `winget install X` |
+| 升级 | `brew upgrade X` | `sudo apt upgrade X` | `winget upgrade X` |
+| 卸载 | `brew uninstall X` | `sudo apt remove X` | `winget uninstall X` |
+| 列出已安装 | `brew list` | `apt list --installed` | `winget list` |
+| 更新索引 | `brew update` | `sudo apt update` | （自动） |
 
 ---
 
@@ -297,12 +277,13 @@ sudo apt install -y git wget curl tree htop cmake build-essential
 sudo apt install -y python3 python3-pip python3-venv
 ```
 
-### Windows (scoop)
+### Windows (winget)
 
 ```powershell
-scoop install git wget curl python cmake
-scoop bucket add extras
-scoop install vscode
+winget install Git.Git
+winget install Python.Python.3.12
+winget install Kitware.CMake
+winget install Microsoft.VisualStudioCode
 ```
 
 ### 验证安装
@@ -328,18 +309,15 @@ A: 配置清华或中科大镜像源，参见 4.2 节。
 **Q: Ubuntu 上 `pip install` 报错 "externally-managed-environment"？**
 A: Ubuntu 23.04+ 默认启用了 PEP 668 保护。请使用虚拟环境：`python3 -m venv myenv && source myenv/bin/activate`。
 
-**Q: Windows 上 scoop 和 winget 应该用哪个？**
-A: 开发工具推荐 scoop（不需要管理员权限，路径管理更好）；普通 GUI 应用可以用 winget。两者可以共存。
-
 **Q: 包管理器安装的软件在哪里？**
-A: Homebrew 在 `/opt/homebrew/`（Apple Silicon）或 `/usr/local/`（Intel）。apt 在 `/usr/`。scoop 在 `~/scoop/`。
+A: Homebrew 在 `/opt/homebrew/`（Apple Silicon）或 `/usr/local/`（Intel）。apt 在 `/usr/`。winget 通常安装到 `Program Files` 或用户目录。
 
 ---
 
 ## 小结
 
 - 包管理器是现代开发和科研的基本工具，**优先使用包管理器安装软件**
-- macOS 用 **Homebrew**，Ubuntu 用 **apt**，Windows 用 **scoop** 或 **winget**
+- macOS 用 **Homebrew**，Ubuntu 用 **apt**，Windows 用 **winget**
 - 中国大陆用户记得配置**镜像源**以加速下载
 - 遇到问题时，先检查 PATH、权限和网络
 

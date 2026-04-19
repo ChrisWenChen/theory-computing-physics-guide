@@ -158,16 +158,7 @@ winget upgrade --all
 
 #### Scoop — 轻量社区包管理器
 
-Scoop 专注于开发者工具，安装的软件不会污染系统环境，也无需管理员权限：
-
-```powershell
-# 安装 Scoop
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-
-# 安装常用工具
-scoop install git python gcc make
-```
+Scoop 专注于开发者工具，安装软件无需管理员权限，适合需要管理多版本工具链的高级用户。安装方式见 [scoop.sh](https://scoop.sh)。日常使用推荐优先使用 winget。
 
 #### MSYS2 — Windows 上的 GCC 工具链
 

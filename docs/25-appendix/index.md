@@ -105,14 +105,14 @@ sidebar_label: "25. 附录"
 
 ### 包管理器
 
-| 操作 | macOS (Homebrew) | Ubuntu (apt) | Windows (scoop) |
-|------|-----------------|--------------|-----------------|
-| 安装包 | `brew install X` | `sudo apt install X` | `scoop install X` |
-| 搜索包 | `brew search X` | `apt search X` | `scoop search X` |
-| 升级包 | `brew upgrade X` | `sudo apt upgrade X` | `scoop update X` |
-| 卸载包 | `brew uninstall X` | `sudo apt remove X` | `scoop uninstall X` |
-| 更新索引 | `brew update` | `sudo apt update` | `scoop update` |
-| 列出已装 | `brew list` | `apt list --installed` | `scoop list` |
+| 操作 | macOS (Homebrew) | Ubuntu (apt) | Windows (winget) |
+|------|-----------------|--------------|------------------|
+| 安装包 | `brew install X` | `sudo apt install X` | `winget install X` |
+| 搜索包 | `brew search X` | `apt search X` | `winget search X` |
+| 升级包 | `brew upgrade X` | `sudo apt upgrade X` | `winget upgrade X` |
+| 卸载包 | `brew uninstall X` | `sudo apt remove X` | `winget uninstall X` |
+| 更新索引 | `brew update` | `sudo apt update` | （自动） |
+| 列出已装 | `brew list` | `apt list --installed` | `winget list` |
 
 ### 系统操作
 
@@ -129,7 +129,7 @@ sidebar_label: "25. 附录"
 
 | 操作 | macOS | Ubuntu | Windows |
 |------|-------|--------|---------|
-| 安装 Python | `brew install python` | `sudo apt install python3` | `scoop install python` |
+| 安装 Python | `brew install python` | `sudo apt install python3` | `winget install Python.Python.3.12` |
 | 调用 Python | `python3` | `python3` | `python` 或 `python3` |
 | 创建虚拟环境 | `python3 -m venv .venv` | `python3 -m venv .venv` | `python -m venv .venv` |
 | 激活虚拟环境 | `source .venv/bin/activate` | `source .venv/bin/activate` | `.venv\Scripts\activate`（PS）或 `source .venv/bin/activate`（WSL） |

@@ -78,12 +78,12 @@ Obsidian 是一个**本地优先**的 Markdown 笔记工具。所有笔记保存
 brew install --cask obsidian
 
 # Windows
-scoop install obsidian
-# 或从 https://obsidian.md 下载
+winget install Obsidian.Obsidian
 
-# Linux
-# 从官网下载 AppImage 或：
-sudo snap install obsidian
+# Linux（从官网下载 .deb 安装包）
+# 访问 https://obsidian.md/download 下载 .deb
+sudo dpkg -i obsidian_*.deb
+sudo apt install -f    # 自动补全缺少的依赖
 ```
 
 ### 核心概念
