@@ -299,10 +299,6 @@ pdflatex --version
 **方式一：MiKTeX（推荐，自动安装缺失宏包）**
 
 ```powershell
-# 通过 scoop 安装
-scoop install miktex
-
-# 或通过 winget 安装
 winget install MiKTeX.MiKTeX
 ```
 
@@ -311,7 +307,7 @@ MiKTeX 的优势是**按需安装**：编译时如果缺少某个宏包，它会
 **方式二：TeX Live**
 
 ```powershell
-scoop install texlive
+winget install TeXLive.TeXLive
 ```
 
 安装后验证：

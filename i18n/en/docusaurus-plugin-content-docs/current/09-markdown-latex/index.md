@@ -298,10 +298,6 @@ pdflatex --version
 **Option 1: MiKTeX (recommended — auto-installs missing packages)**
 
 ```powershell
-# Via scoop
-scoop install miktex
-
-# Or via winget
 winget install MiKTeX.MiKTeX
 ```
 
@@ -310,7 +306,7 @@ MiKTeX's advantage is **on-demand installation**: when a missing package is dete
 **Option 2: TeX Live**
 
 ```powershell
-scoop install texlive
+winget install TeXLive.TeXLive
 ```
 
 Verify after installation:
