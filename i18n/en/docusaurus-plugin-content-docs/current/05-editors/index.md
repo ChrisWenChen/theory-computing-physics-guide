@@ -174,22 +174,26 @@ Don't try to learn all of vim's features at once. Start by memorizing the surviv
 
 ### Installation
 
+Install via your system's package manager — this gives you automatic updates alongside your other tools:
+
 ```bash
-# macOS
+# Windows (winget)
+winget install Microsoft.VisualStudioCode
+
+# macOS (Homebrew)
 brew install --cask visual-studio-code
 
-# Ubuntu
-sudo snap install code --classic
-# Or via apt:
-# wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-# sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/
-# sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-# sudo apt update && sudo apt install code
-
-# Windows (scoop)
-scoop bucket add extras
-scoop install vscode
+# Ubuntu (official apt repository — supports automatic future updates)
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+  | gpg --dearmor \
+  | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.gpg] \
+  https://packages.microsoft.com/repos/code stable main" \
+  | sudo tee /etc/apt/sources.list.d/vscode.list
+sudo apt update && sudo apt install code
 ```
+
+If you prefer not to use a package manager, download the installer directly from the [official website](https://code.visualstudio.com) (`.exe` for Windows, `.dmg` for macOS, `.deb` for Ubuntu) and double-click to install.
 
 ### Opening VS Code from the Command Line
 

@@ -174,22 +174,26 @@ vimtutor            # vim 自带的交互式教程（约 30 分钟）
 
 ### 安装
 
+推荐通过系统包管理器安装，安装后可随系统统一更新：
+
 ```bash
-# macOS
+# Windows（winget）
+winget install Microsoft.VisualStudioCode
+
+# macOS（Homebrew）
 brew install --cask visual-studio-code
 
-# Ubuntu
-sudo snap install code --classic
-# 或通过 apt:
-# wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-# sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/
-# sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-# sudo apt update && sudo apt install code
-
-# Windows (scoop)
-scoop bucket add extras
-scoop install vscode
+# Ubuntu（配置官方 apt 源，支持后续自动更新）
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
+  | gpg --dearmor \
+  | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.gpg] \
+  https://packages.microsoft.com/repos/code stable main" \
+  | sudo tee /etc/apt/sources.list.d/vscode.list
+sudo apt update && sudo apt install code
 ```
+
+不使用包管理器的话，也可以直接从[官网](https://code.visualstudio.com)下载安装包（Windows `.exe`、macOS `.dmg`、Ubuntu `.deb`），下载后双击安装即可。
 
 ### 从命令行打开 VS Code
 
