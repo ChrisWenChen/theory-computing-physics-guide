@@ -320,7 +320,8 @@ Host lab-via-tailscale
 需要远程 GUI 时：
 
 1. 安装 AnyDesk 并设置无人值守访问
-2. 配合 Tailscale 可以减少对公网 IP 的依赖
+2. AnyDesk 本身内置了中继穿透机制，**不需要 Tailscale** 即可跨公网使用
+3. 如果你已经有 Tailscale 网络，也可以直接用 Tailscale IP 连接 AnyDesk，省去中继服务器
 
 ---
 
@@ -390,7 +391,7 @@ A: VS Code Remote SSH 是一个优秀的开发方案，但它解决的是"远程
 | Tailscale | 虚拟组网，解决"连不上"的问题 |
 | AnyDesk | 远程桌面，需要 GUI 时使用 |
 
-核心原则：**先解决网络可达性（Tailscale），再选择访问方式（SSH / AnyDesk），最后选择客户端（终端 / Termius）**。
+核心原则：**SSH 需要先解决网络可达性（用 Tailscale 或公网 IP），AnyDesk 自带穿透无需额外组网；根据需求选择访问方式（SSH / AnyDesk），再选择客户端（终端 / Termius）**。
 
 ---
 

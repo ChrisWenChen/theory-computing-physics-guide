@@ -320,7 +320,8 @@ Host lab-via-tailscale
 When remote GUI access is needed:
 
 1. Install AnyDesk and configure unattended access
-2. Combine with Tailscale to reduce reliance on public IPs
+2. AnyDesk has built-in relay/NAT traversal — **no Tailscale required** to connect across the internet
+3. If you already have a Tailscale network, you can also connect AnyDesk via Tailscale IPs to bypass relay servers entirely
 
 ---
 
@@ -390,7 +391,7 @@ A: VS Code Remote SSH is an excellent development solution, but it solves the "r
 | Tailscale | Virtual networking, solves the "can't connect" problem |
 | AnyDesk | Remote desktop, used when GUI access is needed |
 
-Core principle: **First solve network reachability (Tailscale), then choose the access method (SSH / AnyDesk), and finally choose the client (terminal / Termius)**.
+Core principle: **SSH requires network reachability first (via Tailscale or a public IP); AnyDesk has built-in traversal and needs no extra networking. Choose your access method (SSH / AnyDesk) based on need, then pick the client (terminal / Termius)**.
 
 ---
 
