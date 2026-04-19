@@ -126,7 +126,66 @@ python3 --version
 
 Windows 11 comes with Windows Terminal, a modern terminal application that supports multiple tabs and can run PowerShell, cmd, and WSL simultaneously.
 
-If you are using Windows 10, install Windows Terminal from the Microsoft Store.
+**Windows Terminal Preview** is recommended — it has a more polished interface and ships newer features first:
+
+```powershell
+# Install with winget in one line (no need to open the Microsoft Store)
+winget install Microsoft.WindowsTerminal.Preview
+```
+
+If you are on Windows 10 and don't have `winget`, search for "Windows Terminal Preview" in the Microsoft Store.
+
+### Native Windows Development Environment
+
+Even though WSL is strongly recommended for research computing, it is worth knowing the native Windows toolchain — especially when WSL is not available, or when deep integration with Windows software is required.
+
+#### winget — Windows Built-in Package Manager
+
+Windows 10 (version 2004 and above) and Windows 11 ship with `winget`, analogous to Linux's `apt` or macOS's `brew`. You can use it directly in PowerShell:
+
+```powershell
+# Install common development tools
+winget install Git.Git
+winget install Microsoft.VisualStudioCode
+winget install Python.Python.3.12
+
+# Search for available packages
+winget search gcc
+
+# Upgrade all installed packages at once
+winget upgrade --all
+```
+
+#### Scoop — Lightweight Community Package Manager
+
+Scoop focuses on developer tools. It installs software without polluting the system environment and requires no administrator privileges:
+
+```powershell
+# Install Scoop
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
+# Install common tools
+scoop install git python gcc make
+```
+
+#### MSYS2 — GCC Toolchain for Windows
+
+MSYS2 provides a native Windows GCC compiler and Unix tools. Programs built with it run directly on Windows (no WSL or Linux required):
+
+```powershell
+# Install MSYS2 via winget
+winget install MSYS2.MSYS2
+
+# Then in the MSYS2 terminal (MINGW64), install the compiler
+pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make
+```
+
+:::tip Native Windows or WSL?
+For computational physics research, **WSL is the better choice**: most scientific software targets Linux, WSL is fully consistent with server environments, and its performance is close to native Linux.
+
+The native Windows toolchain (MSYS2, etc.) is more suitable when you need to build Windows-native applications or work deeply with the Windows ecosystem.
+:::
 
 ## 3.4 Why WSL Is Recommended on Windows
 
@@ -177,6 +236,10 @@ In the dialog that appears, check the following two items:
 
 - ✅ **Windows Subsystem for Linux**
 - ✅ **Virtual Machine Platform**
+
+:::info Windows 11 Users
+On Windows 11, **Virtual Machine Platform** may already be enabled by default, or it may appear grayed out / uncheckable in the list. This simply means the feature is already active — no action needed; proceed to the next step.
+:::
 
 Click "OK", wait for the installation to complete, then **restart your computer**.
 

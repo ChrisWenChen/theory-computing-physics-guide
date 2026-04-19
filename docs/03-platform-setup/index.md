@@ -126,7 +126,66 @@ python3 --version
 
 Windows 11 自带 Windows Terminal，是一个现代化的终端应用，支持多标签页，可以同时运行 PowerShell、cmd 和 WSL。
 
-如果使用 Windows 10，请从 Microsoft Store 安装 Windows Terminal。
+推荐安装 **Windows Terminal Preview**，界面更美观，功能也更新：
+
+```powershell
+# 用 winget 一行安装（无需打开 Microsoft Store）
+winget install Microsoft.WindowsTerminal.Preview
+```
+
+如果使用 Windows 10 且没有 `winget`，可以在 Microsoft Store 搜索 "Windows Terminal Preview" 安装。
+
+### Windows 原生开发环境
+
+虽然科研计算强烈推荐 WSL，但了解 Windows 原生的开发工具链同样重要，尤其在不方便使用 WSL、或需要与 Windows 软件深度集成时。
+
+#### winget — Windows 内置包管理器
+
+Windows 10（2004 及以上）和 Windows 11 内置了 `winget`，类似于 Linux 的 `apt` 或 macOS 的 `brew`，可以直接在 PowerShell 中使用：
+
+```powershell
+# 安装常用开发工具
+winget install Git.Git
+winget install Microsoft.VisualStudioCode
+winget install Python.Python.3.12
+
+# 搜索可用软件
+winget search gcc
+
+# 一键升级所有已安装软件
+winget upgrade --all
+```
+
+#### Scoop — 轻量社区包管理器
+
+Scoop 专注于开发者工具，安装的软件不会污染系统环境，也无需管理员权限：
+
+```powershell
+# 安装 Scoop
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
+# 安装常用工具
+scoop install git python gcc make
+```
+
+#### MSYS2 — Windows 上的 GCC 工具链
+
+MSYS2 提供在 Windows 上原生运行的 GCC 编译器和 Unix 工具，编译出的程序可以直接在 Windows 上运行（不依赖 WSL 或 Linux）：
+
+```powershell
+# 通过 winget 安装 MSYS2
+winget install MSYS2.MSYS2
+
+# 然后在 MSYS2 终端（MINGW64）中安装编译器
+pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make
+```
+
+:::tip 原生 Windows 还是 WSL？
+对于计算物理研究，**WSL 是更好的选择**：科研软件大多面向 Linux 开发，WSL 与服务器环境完全一致，且性能接近原生 Linux。
+
+原生 Windows 工具链（MSYS2 等）更适合需要开发 Windows 原生应用，或与 Windows 生态深度集成的场景。
+:::
 
 ## 3.4 Windows 上为什么建议安装 WSL
 
@@ -177,6 +236,10 @@ wsl --list --verbose
 
 - ✅ **适用于 Linux 的 Windows 子系统**（Windows Subsystem for Linux）
 - ✅ **虚拟机平台**（Virtual Machine Platform）
+
+:::info Windows 11 用户
+在 Windows 11 上，**虚拟机平台** 可能已默认启用，或在列表中显示为灰色/不可勾选状态。这说明该功能已经开启，无需任何操作，继续下一步即可。
+:::
 
 点击"确定"，等待安装完成后**重启电脑**。
 
