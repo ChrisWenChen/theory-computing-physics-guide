@@ -326,38 +326,76 @@ grep -r "def calculate_energy" *.py
 
 ## 2.7 环境变量 PATH 是什么
 
-当你输入一个命令（比如 `python`），Shell 需要知道 `python` 这个程序在磁盘上的哪个位置。它是通过 **PATH 环境变量**来查找的。
+当你在终端中输入一个命令，例如：
 
 ```bash
-# 查看 PATH
-echo $PATH
-# 输出示例:
-# /usr/local/bin:/usr/bin:/bin:/home/student/.local/bin
+python
 ```
 
-PATH 是一系列目录，用 `:` 分隔。当你输入 `python` 时，Shell 会依次在这些目录中查找名为 `python` 的程序。
+Shell 需要先找到 `python` 这个程序实际存放在磁盘上的位置，才能执行它。**PATH** 就是一个环境变量，它保存了一组用于查找可执行程序的目录。
+
+> 你可以把 PATH 理解为：Shell 查找命令时使用的目录列表。
+
+### 查看 PATH
+
+```bash
+echo $PATH
+```
+
+输出示例：
+
+```
+/usr/local/bin:/usr/bin:/bin:/home/student/.local/bin
+```
+
+这些目录之间用 `:` 分隔。当你输入一个命令时，Shell 会**从左到右**依次在这些目录中查找同名程序。
+
+例如输入 `python`，Shell 可能依次检查：
+
+```
+/usr/local/bin/python
+/usr/bin/python
+/bin/python
+/home/student/.local/bin/python
+```
+
+找到了就执行；如果所有目录中都没有，就会报：
+
+```
+command not found
+```
 
 ### 查看命令的实际位置
 
 ```bash
 which python
-# 输出: /usr/bin/python
-
-which gcc
-# 输出: /usr/local/bin/gcc
 ```
+
+输出示例：
+
+```
+/usr/bin/python
+```
+
+这表示当前默认执行的 `python` 来自 `/usr/bin/python`。
 
 ### 为什么 PATH 很重要？
 
-- `command not found` 错误通常意味着程序没有安装，或者安装了但其路径不在 PATH 中
-- 安装新软件后，有时需要将其路径添加到 PATH
-- 当你有多个版本的同一程序时，PATH 中的顺序决定了默认使用哪个
+- 它决定一个命令能否直接运行
+- 程序已安装但不在 PATH 中时，可能出现 `command not found`
+- 当系统中存在多个同名程序时，PATH 的顺序决定默认使用哪一个
+
+### 修改 PATH
+
+临时添加目录到 PATH：
 
 ```bash
-# 临时添加路径到 PATH
 export PATH="/new/software/bin:$PATH"
+```
 
-# 永久添加（写入配置文件）
+永久添加（以 bash 为例）：
+
+```bash
 echo 'export PATH="/new/software/bin:$PATH"' >> ~/.bashrc
 ```
 
@@ -403,23 +441,35 @@ python script.py > output.log 2>&1
 
 ### 管道 (Pipe)
 
-用 `|` 将一个命令的输出作为另一个命令的输入。
+管道使用符号 `|` 表示，它会把前一个命令的标准输出直接交给后一个命令的标准输入——也就是说，前一个命令产生的数据不再直接显示到屏幕，而是作为下一个命令要处理的内容。
+
+> 你可以把管道理解成一条"数据处理流水线"：前一个命令负责产生数据，后一个命令负责进一步筛选、统计或加工。
+
+例如：
 
 ```bash
-# 查看进程中包含 python 的
 ps aux | grep python
-
-# 统计源码文件的数量
-find . -name "*.py" | wc -l
-
-# 查看占用空间最大的文件
-du -sh * | sort -rh | head -10
-
-# 在输出中搜索特定内容
-cat simulation.log | grep "energy" | tail -5
 ```
 
-管道是命令行最强大的特性之一——它让你像搭积木一样组合简单命令来完成复杂任务。
+含义：`ps aux` 列出所有进程，`grep python` 从中筛选出包含 `python` 的行。
+
+再例如：
+
+```bash
+find . -name "*.py" | wc -l
+```
+
+含义：`find` 找出所有 `.py` 文件，`wc -l` 统计共有多少个。
+
+管道特别适合把多个简单命令连接起来逐步完成复杂任务——先查找、再筛选、再排序、最后只保留前几项：
+
+```bash
+du -sh * | sort -rh | head -10
+```
+
+含义：查看当前目录各项占用空间，按大小从大到小排序，只显示前 10 个。
+
+管道是命令行最强大的特性之一，因为它允许你像搭积木一样，把许多小而专一的命令组合成一个完整的数据处理流程。
 
 ### 科研实用示例
 

@@ -326,38 +326,76 @@ grep -r "def calculate_energy" *.py
 
 ## 2.7 What Is the PATH Environment Variable
 
-When you type a command (such as `python`), the Shell needs to know where the `python` program is located on disk. It finds it through the **PATH environment variable**.
+When you type a command in the terminal, for example:
 
 ```bash
-# View PATH
-echo $PATH
-# Example output:
-# /usr/local/bin:/usr/bin:/bin:/home/student/.local/bin
+python
 ```
 
-PATH is a series of directories separated by `:`. When you type `python`, the Shell searches these directories in order for a program named `python`.
+The Shell needs to find where the `python` program actually lives on disk before it can run it. **PATH** is an environment variable that holds a list of directories to search for executable programs.
+
+> Think of PATH as: the list of directories the Shell checks when looking for a command.
+
+### View PATH
+
+```bash
+echo $PATH
+```
+
+Example output:
+
+```
+/usr/local/bin:/usr/bin:/bin:/home/student/.local/bin
+```
+
+Directories are separated by `:`. When you type a command, the Shell searches them **left to right**.
+
+For example, typing `python` causes the Shell to check in order:
+
+```
+/usr/local/bin/python
+/usr/bin/python
+/bin/python
+/home/student/.local/bin/python
+```
+
+If found, it runs; if none of the directories contain it, you get:
+
+```
+command not found
+```
 
 ### Check the Actual Location of a Command
 
 ```bash
 which python
-# Output: /usr/bin/python
-
-which gcc
-# Output: /usr/local/bin/gcc
 ```
+
+Example output:
+
+```
+/usr/bin/python
+```
+
+This means the `python` that runs by default comes from `/usr/bin/python`.
 
 ### Why Is PATH Important?
 
-- A `command not found` error usually means the program is not installed, or it is installed but its path is not in PATH
-- After installing new software, you sometimes need to add its path to PATH
-- When you have multiple versions of the same program, the order in PATH determines which one is used by default
+- It determines whether a command can be run directly
+- If a program is installed but not on PATH, you may see `command not found`
+- When multiple programs share the same name, PATH order decides which one runs by default
+
+### Modifying PATH
+
+Temporarily add a directory to PATH:
 
 ```bash
-# Temporarily add a path to PATH
 export PATH="/new/software/bin:$PATH"
+```
 
-# Permanently add (write to config file)
+Permanently add it (bash example):
+
+```bash
 echo 'export PATH="/new/software/bin:$PATH"' >> ~/.bashrc
 ```
 
@@ -403,23 +441,35 @@ python script.py > output.log 2>&1
 
 ### Pipes
 
-Use `|` to send the output of one command as input to another command.
+The pipe symbol `|` takes the standard output of one command and passes it directly as the standard input of the next — instead of displaying data on screen, it becomes the input for further processing.
+
+> Think of a pipe as a data processing pipeline: the first command produces data; the next command filters, counts, or transforms it.
+
+For example:
 
 ```bash
-# View processes containing python
 ps aux | grep python
-
-# Count the number of source code files
-find . -name "*.py" | wc -l
-
-# View the largest files by space usage
-du -sh * | sort -rh | head -10
-
-# Search for specific content in output
-cat simulation.log | grep "energy" | tail -5
 ```
 
-Pipes are one of the most powerful features of the command line — they let you combine simple commands like building blocks to accomplish complex tasks.
+`ps aux` lists all running processes; `grep python` keeps only lines containing `python`.
+
+Another example:
+
+```bash
+find . -name "*.py" | wc -l
+```
+
+`find` locates all `.py` files; `wc -l` counts how many there are.
+
+Pipes are especially useful for chaining simple commands into a complete workflow — find, filter, sort, keep the top results:
+
+```bash
+du -sh * | sort -rh | head -10
+```
+
+This shows which items in the current directory use the most disk space, sorted from largest to smallest, top 10 only.
+
+Pipes are one of the most powerful features of the command line — they let you compose many small, focused commands into a complete data processing pipeline.
 
 ### Practical Research Examples
 
