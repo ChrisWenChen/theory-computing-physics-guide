@@ -249,18 +249,22 @@ The following are the most practical VS Code extensions for computational physic
 | **indent-rainbow** | Color-code indentation levels |
 | **Code Spell Checker** | Spell checking |
 
-### Installing Extensions from the Command Line
+All of the above extensions can be installed by searching their names in the VS Code Extensions panel (`Ctrl+Shift+X`) — no command line needed.
 
-```bash
-code --install-extension ms-python.python
-code --install-extension ms-python.vscode-pylance
-code --install-extension ms-vscode.cpptools
-code --install-extension ms-vscode.cmake-tools
-code --install-extension ms-toolsai.jupyter
-code --install-extension James-Yu.latex-workshop
-code --install-extension ms-vscode-remote.remote-ssh
-code --install-extension eamodio.gitlens
-```
+:::tip Recommendation: Use VS Code as a Plain Text Editor
+Many beginners spend a lot of time configuring VS Code's one-click run buttons, debug panels, and various automation extensions — but this often backfires.
+
+**The recommended approach**: write code in VS Code, run and debug in the terminal.
+
+Here's why:
+
+- **Portability**: You will eventually work on a server with no graphical interface. Whatever you can do in the terminal works on any machine; workflows that depend on VS Code buttons fall apart the moment you SSH into a cluster.
+- **Deeper understanding**: `python script.py`, `gcc -O2 main.c -o main`, `make` — you know exactly how the program is being built and run. Clicking a button hides all of that.
+- **Clearer debugging**: Error messages appear directly in the terminal, unfiltered and unformatted by an IDE layer — which actually makes it easier to spot the problem.
+- **Fewer dependencies**: VS Code updates, extension conflicts, broken configs — none of these will derail your workflow if you haven't built it around them.
+
+In practice, VS Code's core value lies in: syntax highlighting, intelligent completion, code navigation, Git diff viewing, and Remote SSH editing. That's already plenty.
+:::
 
 ---
 

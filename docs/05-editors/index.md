@@ -249,18 +249,21 @@ macOS 用户首次使用 `code` 命令，需要在 VS Code 中按 `Cmd+Shift+P`�
 | **indent-rainbow** | 用颜色区分缩进层级 |
 | **Code Spell Checker** | 拼写检查 |
 
-### 命令行安装插件
+以上插件均可直接在 VS Code 的插件商店（`Ctrl+Shift+X`）中搜索名称安装，无需命令行。
 
-```bash
-code --install-extension ms-python.python
-code --install-extension ms-python.vscode-pylance
-code --install-extension ms-vscode.cpptools
-code --install-extension ms-vscode.cmake-tools
-code --install-extension ms-toolsai.jupyter
-code --install-extension James-Yu.latex-workshop
-code --install-extension ms-vscode-remote.remote-ssh
-code --install-extension eamodio.gitlens
-```
+:::tip 建议：把 VS Code 当纯文本编辑器用
+很多初学者会花大量时间配置 VS Code 的"一键运行"按钮、调试面板和各种自动化插件——但这往往适得其反。
+
+**建议的工作方式**：用 VS Code 写代码，用终端运行和调试。
+
+原因：
+- **可移植性**：你迟早要在没有图形界面的服务器上工作。在终端里能做的，换台机器照样能做；依赖 VS Code 按钮的工作方式，到了服务器上就会手足无措。
+- **理解更深**：`python script.py`、`gcc -O2 main.c -o main`、`make`——你知道程序是怎么跑起来的；点按钮只是隐藏了这些细节。
+- **调试更清晰**：报错信息直接在终端里，不会被 IDE 的界面过滤或美化，反而更容易定位问题。
+- **减少依赖**：VS Code 更新、插件冲突、配置失效……这些问题不会影响你的工作流。
+
+实践上，VS Code 的核心价值在于：语法高亮、智能补全、代码跳转、Git 差异查看、Remote SSH 远程编辑。这些已经足够了。
+:::
 
 ---
 
