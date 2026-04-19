@@ -56,7 +56,20 @@ slug: /
 
 ### 可选工具
 
-8\. 远程连接工具 · 9. Markdown 与 LaTeX · 10. Obsidian · 11. Bash 脚本 · 14. Fortran/C/C++ · 15. Make 与 CMake · 16. OpenMP 与 MPI · 17. 高性能数值库 · 18. Julia · 19. AI 辅助编程 · 20. 读懂别人的代码 · 21. 项目组织 · 22. Vibe Coding · 23. Zotero
+- 8\. 远程连接工具
+- 9\. Markdown 与 LaTeX
+- 10\. Obsidian
+- 11\. Bash 脚本
+- 14\. Fortran/C/C++
+- 15\. Make 与 CMake
+- 16\. OpenMP 与 MPI
+- 17\. 高性能数值库
+- 18\. Julia
+- 19\. AI 辅助编程
+- 20\. 读懂别人的代码
+- 21\. 项目组织
+- 22\. Vibe Coding
+- 23\. Zotero
 
 ## 设计原则
 

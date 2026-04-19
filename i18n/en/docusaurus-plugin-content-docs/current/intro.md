@@ -56,7 +56,20 @@ If you have limited time, we recommend reading in the following priority order:
 
 ### Optional Tools
 
-8\. Remote Connection Tools · 9. Markdown and LaTeX · 10. Obsidian · 11. Bash Scripting · 14. Fortran/C/C++ · 15. Make and CMake · 16. OpenMP and MPI · 17. High-Performance Numerical Libraries · 18. Julia · 19. AI-Assisted Programming · 20. Reading Others' Code · 21. Project Organization · 22. Vibe Coding · 23. Zotero
+- 8\. Remote Connection Tools
+- 9\. Markdown and LaTeX
+- 10\. Obsidian
+- 11\. Bash Scripting
+- 14\. Fortran/C/C++
+- 15\. Make and CMake
+- 16\. OpenMP and MPI
+- 17\. High-Performance Numerical Libraries
+- 18\. Julia
+- 19\. AI-Assisted Programming
+- 20\. Reading Others' Code
+- 21\. Project Organization
+- 22\. Vibe Coding
+- 23\. Zotero
 
 ## Design Principles
 
