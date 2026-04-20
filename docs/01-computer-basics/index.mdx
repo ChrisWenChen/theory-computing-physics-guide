@@ -260,6 +260,16 @@ research/simulation.py    # 相对路径
 把 `.txt` 改成 `.py` 不会让一个文本文件变成 Python 程序。扩展名只是一个"标签"，真正决定文件性质的是文件内容。
 :::
 
+:::tip 跨平台路径分隔符
+macOS/Linux 用 `/`，Windows 用 `\`——直接把路径字符串硬编码进代码，换系统就会出错。各语言通常都有处理方案，让你不必手动拼接：
+
+- **Python**：`pathlib.Path("data") / "run_1.dat"` 或 `os.path.join("data", "run_1.dat")`
+- **MATLAB**：`fullfile('data', 'run_1.dat')`
+- **C++17**：`std::filesystem::path`
+
+养成用这些工具拼接路径的习惯，代码就能同时在三个平台跑。
+:::
+
 ## 1.6 进程、线程与程序
 
 | 概念 | 更合适的类比 | 含义 |
@@ -287,6 +297,8 @@ research/simulation.py    # 相对路径
   </div>
 </div>
 
+每个进程启动后会被系统分配一个唯一的编号，叫做 **PID (Process ID)**。后续终止进程、查看资源占用都要用到它。
+
 ```bash
 # 查看当前运行的进程
 # macOS / Linux:
@@ -304,10 +316,10 @@ Get-Process
 
 ```bash
 # 终止进程（Linux/macOS）
-kill <进程ID>
+kill <PID>
 
 # 强制终止
-kill -9 <进程ID>
+kill -9 <PID>
 ```
 
 ## 1.7 什么是编程
@@ -357,6 +369,12 @@ for n in range(5):
 "在我电脑上能跑"是科研计算中最常见（也最令人头疼）的一句话。学会管理环境是本教程的核心目标之一。
 :::
 
+### 几组容易混淆的概念
+
+**程序 (Program) vs 脚本 (Script)**：两者界限并不严格。常见理解是——*程序*偏向编译后可直接执行的软件（如 `a.out`、`vasp_std`），或泛指任何"一段能运行的代码"；*脚本*特指由解释器（Python、Bash 等）读一行执行一行的源文件，不经过编译。所以 `plot.py` 既可以叫脚本、也可以叫 Python 程序，但 `vasp_std` 一般不会被叫作脚本。
+
+**函数 (Function) vs 库/包 (Library/Package)**：*函数*是代码的最小可复用单元，封装一段逻辑（如 `numpy.sin(x)`）；*库/包*是一大批相关函数（以及类、常量、子模块）打包成的集合（如 `numpy` 包含数千个函数）。你在代码里 `import numpy` 后再调用 `numpy.sin(x)`——先用库，再用库里的函数。
+
 ## 常见问题
 
 **Q：我需要买很贵的电脑吗？**
@@ -370,6 +388,14 @@ A：非常适合。M 系列芯片性能强劲，能效比高。
 **Q：我需要学多少硬件知识？**
 
 A：本章的内容就足够了。你需要的只是一些基本的概念，不是深入的硬件工程知识。可以遇到问题再学习。
+
+**Q：我看不到文件的扩展名怎么办？**
+
+A：很多系统默认隐藏扩展名（例如把 `simulation.py` 显示成 `simulation`），这会让你误判文件类型。建议打开显示扩展名：
+
+- **Windows**：文件资源管理器 → 查看 → 勾选"文件扩展名"。详见 [Microsoft 官方说明](https://support.microsoft.com/zh-cn/windows/%E6%98%BE%E7%A4%BA%E6%88%96%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6%E6%89%A9%E5%B1%95%E5%90%8D-9ba8d59a-b59a-2fc8-0cc9-c6ed3db77a32)。
+- **macOS**：Finder → 设置 → 高级 → 勾选"显示所有文件扩展名"。详见 [Apple 支持](https://support.apple.com/zh-cn/guide/mac-help/mchlp2304/mac)。
+- **Ubuntu**：Nautilus 文件管理器默认已显示扩展名，无需设置。
 
 ## 小结
 
