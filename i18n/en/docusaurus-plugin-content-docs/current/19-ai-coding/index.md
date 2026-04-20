@@ -206,8 +206,8 @@ claude --version
 ### Installing OpenCode
 
 ```bash
-# Install using Go
-go install github.com/opencode-ai/opencode@latest
+# Install using the official script (recommended)
+curl -fsSL https://opencode.ai/install | bash
 
 # Or download pre-compiled binaries from:
 # https://github.com/opencode-ai/opencode/releases

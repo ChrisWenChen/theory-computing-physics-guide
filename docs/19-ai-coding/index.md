@@ -221,8 +221,8 @@ claude --version
 ### 安装 OpenCode
 
 ```bash
-# 使用 Go 安装
-go install github.com/opencode-ai/opencode@latest
+# 使用官方安装脚本（推荐）
+curl -fsSL https://opencode.ai/install | bash
 
 # 或者下载预编译的二进制文件
 # 访问 https://github.com/opencode-ai/opencode/releases
