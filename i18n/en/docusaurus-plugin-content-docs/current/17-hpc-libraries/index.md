@@ -88,6 +88,17 @@ dpkg -l | grep openblas     # Ubuntu
 brew info openblas           # macOS
 ```
 
+**Windows (MSYS2 UCRT64)**: assuming MSYS2 is already installed per Chapter 14:
+
+```powershell
+C:\msys64\usr\bin\bash.exe -lc "pacman -S --needed --noconfirm mingw-w64-ucrt-x86_64-openblas"
+
+# Verify (with C:\msys64\ucrt64\bin on PATH)
+pkg-config --libs openblas
+```
+
+You can then compile with `gcc test_blas.c $(pkg-config --libs openblas) -o test_blas`.
+
 ### Simple Test
 
 The following program calls BLAS's `ddot` function to compute the dot product of two vectors:
@@ -216,6 +227,47 @@ gcc test_blas.c -lmkl_rt -o test_blas   # GCC can also link MKL
 
 :::info Do You Need MKL?
 If you're using an Intel CPU and have extreme performance requirements, MKL is worth installing. Otherwise, OpenBLAS is good enough for most scenarios. AMD CPU users can also use MKL, but the performance advantage is less pronounced than on Intel CPUs.
+:::
+
+### Intel oneAPI on Windows
+
+On Windows, Intel oneAPI depends on the **native Windows developer environment** — Visual Studio Build Tools, the Windows SDK, and oneAPI's own `setvars.bat`. **Do not** try to load it inside MSYS2/bash, and do not run `icx` from a plain PowerShell without setting up the environment first — you will hit missing-header errors (e.g. `stdio.h: file not found`) and link errors.
+
+First install VS Build Tools (C++ toolchain + Windows SDK) from an administrator PowerShell:
+
+```powershell
+winget install -e --id Microsoft.VisualStudio.2022.BuildTools `
+  --accept-package-agreements --accept-source-agreements `
+  --override "--quiet --wait --norestart --nocache --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.Windows11SDK.22621"
+```
+
+Then install the Windows builds of the oneAPI Base Toolkit + HPC Toolkit from Intel's website. **In every new terminal**, you must load the two environments in the right order:
+
+```powershell
+# 1. Load the Visual Studio developer environment first
+& "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\Launch-VsDevShell.ps1" -Arch amd64 -HostArch amd64
+
+# 2. Then layer oneAPI on top (import the variables that setvars.bat exports)
+cmd /c '"C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 >nul && set' | ForEach-Object {
+    if ($_ -match '^(.*?)=(.*)$') {
+        [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2], 'Process')
+    }
+}
+
+# Verify
+where.exe icx
+where.exe ifx
+Get-ChildItem Env:MKLROOT
+```
+
+Order matters: loading oneAPI without the VS developer shell leaves `INCLUDE` missing the MSVC / UCRT / Windows SDK include paths, and even `stdio.h` will not be found.
+
+:::caution Do not mix the GNU and Intel toolchains
+MSYS2 lives in the GNU/pkg-config world; Intel oneAPI lives in the native Windows / MSVC world. Headers, library formats, and linking conventions differ. Forcing them into one shell produces a fragile hybrid. The stable approach is two one-shot launcher scripts — start whichever terminal fits the task.
+:::
+
+:::tip When to switch to WSL
+For single-machine work with just MKL + Intel compilers, the native Windows path does work. But once you need **Intel MPI, PETSc, or SLEPc**, Windows wrappers, shells, and paths will eat enormous amounts of time in pure environment friction. That kind of work is **much easier in WSL** — installing OpenMPI via `apt` and building PETSc is a standard flow, and the environment matches real HPC clusters.
 :::
 
 ## 17.5 PETSc

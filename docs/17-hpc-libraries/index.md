@@ -88,6 +88,17 @@ dpkg -l | grep openblas     # Ubuntu
 brew info openblas           # macOS
 ```
 
+**Windows（MSYS2 UCRT64）**：假设你已按第 14 章装好 MSYS2：
+
+```powershell
+C:\msys64\usr\bin\bash.exe -lc "pacman -S --needed --noconfirm mingw-w64-ucrt-x86_64-openblas"
+
+# 验证（PATH 中已含 C:\msys64\ucrt64\bin）
+pkg-config --libs openblas
+```
+
+然后就可以用 `gcc test_blas.c $(pkg-config --libs openblas) -o test_blas` 编译。
+
 ### 简单测试
 
 下面的程序调用 BLAS 的 `ddot` 函数计算两个向量的点积：
@@ -216,6 +227,47 @@ gcc test_blas.c -lmkl_rt -o test_blas   # 用 GCC 也可以链接 MKL
 
 :::info 需要 MKL 吗？
 如果你用的是 Intel CPU 且对性能有极致要求，MKL 值得安装。否则 OpenBLAS 对于大多数场景已经足够好。AMD CPU 用户也可以用 MKL，但性能优势不如在 Intel CPU 上明显。
+:::
+
+### Windows 上的 Intel oneAPI
+
+Intel oneAPI 在 Windows 上依赖的是 **Windows 原生开发环境**——Visual Studio Build Tools、Windows SDK、oneAPI 自己的 `setvars.bat`。**不要**在 MSYS2/bash 里加载它，也不要在普通 PowerShell 里裸跑 `icx`，否则很容易出现头文件找不到（如 `stdio.h: file not found`）、链接器找不到符号等问题。
+
+先在管理员 PowerShell 里装好 VS Build Tools（含 C++ 工具链和 Windows SDK）：
+
+```powershell
+winget install -e --id Microsoft.VisualStudio.2022.BuildTools `
+  --accept-package-agreements --accept-source-agreements `
+  --override "--quiet --wait --norestart --nocache --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.Windows11SDK.22621"
+```
+
+然后从 Intel 官网下载 oneAPI Base Toolkit + HPC Toolkit 的 Windows 安装包装好。**每次开新终端**都要按顺序加载两层环境：
+
+```powershell
+# 1. 先加载 Visual Studio 开发者环境
+& "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\Launch-VsDevShell.ps1" -Arch amd64 -HostArch amd64
+
+# 2. 再叠加 oneAPI（把 setvars.bat 导出的环境变量注入当前 PowerShell）
+cmd /c '"C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 >nul && set' | ForEach-Object {
+    if ($_ -match '^(.*?)=(.*)$') {
+        [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2], 'Process')
+    }
+}
+
+# 验证
+where.exe icx
+where.exe ifx
+Get-ChildItem Env:MKLROOT
+```
+
+顺序不能颠倒：只加载 oneAPI 不加载 VS 开发者环境，`INCLUDE` 里就缺 MSVC / UCRT / Windows SDK 那几层 include 路径，`stdio.h` 都会找不到。
+
+:::caution 不要把 GNU 线和 Intel 线混在一起
+MSYS2 走 GNU/pkg-config 路线，Intel oneAPI 走 Windows 原生 / MSVC 路线，两者的头文件、库格式、链接约定都不同。硬混会得到"谁都不太舒服的混合物"。稳妥做法是准备两个一键启动脚本，需要哪套就起哪套终端。
+:::
+
+:::tip 什么时候该切到 WSL
+只用 MKL + Intel 编译器做单机计算，Windows 原生这条路可以走通；但一旦涉及 **Intel MPI、PETSc、SLEPc**，Windows 下的 wrapper、shell、路径问题会把大量时间耗在环境摩擦上。这类工作**直接在 WSL 里做**要省心得多——`apt` 装 OpenMPI、编译 PETSc 都是标准流程，且和真正的超算环境一致。
 :::
 
 ## 17.5 PETSc
