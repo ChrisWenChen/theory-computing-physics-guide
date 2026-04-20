@@ -52,6 +52,23 @@ gcc --version
 git --version
 ```
 
+正常安装后，输出形如（版本号会随时间更新）：
+
+```
+$ brew --version
+Homebrew 4.4.10
+
+$ gcc --version
+Apple clang version 15.0.0 (clang-1500.3.9.4)
+Target: arm64-apple-darwin23.6.0
+...
+
+$ git --version
+git version 2.46.0
+```
+
+只要每条命令都能打出版本号而不是 `command not found`，就算安装成功。具体版本数字不同没关系。
+
 ### 推荐安装的工具
 
 ```bash
@@ -97,6 +114,22 @@ gcc --version
 git --version
 python3 --version
 ```
+
+正常安装后的输出形如：
+
+```
+$ gcc --version
+gcc (Ubuntu 13.2.0-23ubuntu4) 13.2.0
+...
+
+$ git --version
+git version 2.43.0
+
+$ python3 --version
+Python 3.12.3
+```
+
+同样，只要三条命令都打出了版本号、没报 `command not found`，就说明开发环境已就绪。
 
 ### Ubuntu 版本选择
 
@@ -553,6 +586,55 @@ whoami                # 当前用户名
 pwd                   # 当前目录
 echo $HOME            # 家目录
 ```
+
+<details>
+<summary>参考输出示例（你的具体值会不同，但形式应该类似）</summary>
+
+**macOS（M 系列芯片）：**
+
+```
+$ echo $SHELL
+/bin/zsh
+
+$ uname -a
+Darwin MacBook-Air 23.6.0 Darwin Kernel Version 23.6.0 ... arm64
+
+$ whoami
+student
+
+$ pwd
+/Users/student
+
+$ echo $HOME
+/Users/student
+```
+
+**Ubuntu / WSL：**
+
+```
+$ echo $SHELL
+/bin/bash
+
+$ uname -a
+Linux laptop 6.8.0-45-generic ... x86_64 x86_64 x86_64 GNU/Linux
+
+$ whoami
+student
+
+$ pwd
+/home/student
+
+$ echo $HOME
+/home/student
+```
+
+对照要点：
+
+- macOS 默认 Shell 是 **zsh**，Ubuntu/WSL 是 **bash**
+- `uname -a` 开头 `Darwin` = macOS，`Linux` = Ubuntu/WSL
+- 家目录在 macOS 是 `/Users/你` ，Linux 是 `/home/你`
+
+</details>
 
 ### 练习 3.2：WSL 安装（Windows 用户）
 
