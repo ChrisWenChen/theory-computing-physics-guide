@@ -66,15 +66,17 @@ pip3 --version
 
 ### Windows
 
-1. 从 [python.org](https://www.python.org/downloads/) 下载安装包
-2. **勾选 "Add Python to PATH"**（非常重要）
-3. 选择 "Customize installation"，确保 pip 和 venv 被勾选
+推荐使用 winget 安装：
 
 ```powershell
-# 验证（PowerShell 或 Git Bash）
+winget install Python.Python.3.12
+
+# 验证
 python --version
 pip --version
 ```
+
+也可以从 [python.org](https://www.python.org/downloads/) 下载图形安装包，安装时务必勾选 **"Add Python to PATH"**。
 
 :::info
 Windows 上推荐使用 **Git Bash** 或 **WSL** 作为终端，以获得与 Linux/macOS 一致的命令体验。

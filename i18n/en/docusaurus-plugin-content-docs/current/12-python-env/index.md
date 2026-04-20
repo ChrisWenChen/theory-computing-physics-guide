@@ -66,15 +66,17 @@ pip3 --version
 
 ### Windows
 
-1. Download the installer from [python.org](https://www.python.org/downloads/)
-2. **Check "Add Python to PATH"** (very important)
-3. Choose "Customize installation" and make sure pip and venv are selected
+The recommended way is to use winget:
 
 ```powershell
-# Verify (PowerShell or Git Bash)
+winget install Python.Python.3.12
+
+# Verify
 python --version
 pip --version
 ```
+
+You can also download the graphical installer from [python.org](https://www.python.org/downloads/) — make sure to check **"Add Python to PATH"** during installation.
 
 :::info
 On Windows, it is recommended to use **Git Bash** or **WSL** as your terminal for a command-line experience consistent with Linux/macOS.
