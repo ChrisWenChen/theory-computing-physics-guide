@@ -69,16 +69,48 @@ brew install gcc              # 安装 GCC (含 gfortran)
 sudo apt install build-essential gfortran
 ```
 
-**Windows**：
-```bash
-# 方法 1：通过 MSYS2（推荐）
-# 安装 MSYS2 后，在 MSYS2 终端中：
-pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran
+**Windows**：Windows 本身没有系统级的 GNU 工具链。要在 Windows 原生环境里用 gcc/gfortran，需要借助 **MSYS2**——它在 Windows 上提供一套 GNU/MinGW 开发环境，编译出的程序是 Windows 原生可执行文件，不依赖额外运行时。
 
-# 方法 2：使用 WSL（推荐用于科研）
-# 在 WSL 中：
+在管理员 PowerShell 里执行：
+
+```powershell
+# 1. 用 winget 安装 MSYS2
+winget install -e --id MSYS2.MSYS2
+
+# 2. 更新 MSYS2（连跑两次：第一次大更新后需要再刷新一次包状态）
+C:\msys64\usr\bin\bash.exe -lc "pacman -Syu --noconfirm"
+C:\msys64\usr\bin\bash.exe -lc "pacman -Syu --noconfirm"
+
+# 3. 安装 UCRT64 环境下的 GCC / gfortran / make
+C:\msys64\usr\bin\bash.exe -lc "pacman -S --needed --noconfirm \
+  mingw-w64-ucrt-x86_64-gcc \
+  mingw-w64-ucrt-x86_64-gcc-fortran \
+  mingw-w64-ucrt-x86_64-pkgconf \
+  make"
+```
+
+把 `C:\msys64\ucrt64\bin` 加入用户 PATH，之后在普通 PowerShell 里就能直接调用 gcc/gfortran：
+
+```powershell
+[Environment]::SetEnvironmentVariable(
+  "Path",
+  "C:\msys64\ucrt64\bin;" + [Environment]::GetEnvironmentVariable("Path","User"),
+  "User"
+)
+```
+
+重开 PowerShell 后用 `where.exe gcc` 和 `gcc --version` 验证。
+
+:::tip 更省心的方案：WSL
+MSYS2 能让 gcc/gfortran 在 Windows 原生跑起来，但等你往上叠 MPI、PETSc、SLEPc 等库时，不同 shell、工具链、路径之间的摩擦会迅速积累。对于科研计算，**强烈建议直接用 WSL**：
+
+```bash
+# 在 WSL (Ubuntu) 中一条命令搞定
 sudo apt install build-essential gfortran
 ```
+
+WSL 把这些复杂度收敛到统一的 Linux 环境里，也跟超算/服务器环境一致。WSL 安装方式见第 3 章。
+:::
 
 验证安装：
 ```bash

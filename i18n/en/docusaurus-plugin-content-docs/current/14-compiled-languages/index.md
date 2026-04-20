@@ -69,16 +69,48 @@ brew install gcc              # Install GCC (includes gfortran)
 sudo apt install build-essential gfortran
 ```
 
-**Windows**:
-```bash
-# Method 1: Via MSYS2 (recommended)
-# After installing MSYS2, in the MSYS2 terminal:
-pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-gcc-fortran
+**Windows**: Windows has no system-level GNU toolchain. To use gcc/gfortran in native Windows, you need **MSYS2** — it provides a GNU/MinGW development environment on Windows whose compiled programs are native Windows executables with no extra runtime dependency.
 
-# Method 2: Use WSL (recommended for research)
-# In WSL:
+In an administrator PowerShell:
+
+```powershell
+# 1. Install MSYS2 via winget
+winget install -e --id MSYS2.MSYS2
+
+# 2. Update MSYS2 (run twice: the first big update needs a second refresh)
+C:\msys64\usr\bin\bash.exe -lc "pacman -Syu --noconfirm"
+C:\msys64\usr\bin\bash.exe -lc "pacman -Syu --noconfirm"
+
+# 3. Install GCC / gfortran / make in the UCRT64 environment
+C:\msys64\usr\bin\bash.exe -lc "pacman -S --needed --noconfirm \
+  mingw-w64-ucrt-x86_64-gcc \
+  mingw-w64-ucrt-x86_64-gcc-fortran \
+  mingw-w64-ucrt-x86_64-pkgconf \
+  make"
+```
+
+Add `C:\msys64\ucrt64\bin` to your user PATH so you can call gcc/gfortran directly from plain PowerShell:
+
+```powershell
+[Environment]::SetEnvironmentVariable(
+  "Path",
+  "C:\msys64\ucrt64\bin;" + [Environment]::GetEnvironmentVariable("Path","User"),
+  "User"
+)
+```
+
+Reopen PowerShell, then verify with `where.exe gcc` and `gcc --version`.
+
+:::tip The easier path: WSL
+MSYS2 can make gcc/gfortran run natively on Windows, but once you stack MPI, PETSc, SLEPc, etc. on top, friction between different shells, toolchains, and paths accumulates fast. For research computing, **WSL is strongly recommended**:
+
+```bash
+# One command in WSL (Ubuntu):
 sudo apt install build-essential gfortran
 ```
+
+WSL collapses this complexity into a single unified Linux environment that also matches what runs on HPC clusters. See Chapter 3 for WSL installation.
+:::
 
 Verify installation:
 ```bash
