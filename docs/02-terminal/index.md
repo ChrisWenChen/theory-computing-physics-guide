@@ -38,7 +38,7 @@ sidebar_label: "2. 终端、Shell 与命令行"
 **macOS：**
 - `Command + Space`，输入 `Terminal`，回车
 - 或者在 `应用程序 → 实用工具 → 终端`
-- 推荐使用 [iTerm2](https://iterm2.com/) 替代自带终端
+- 推荐使用 [iTerm2](https://iterm2.com/) 替代自带终端：支持分屏、全局快捷键、强大的搜索与自动补全、配色主题管理，长期重度使用会明显更顺手
 
 **Ubuntu：**
 - `Ctrl + Alt + T`
@@ -55,7 +55,18 @@ sidebar_label: "2. 终端、Shell 与命令行"
 student@laptop:~$
 ```
 
-这叫做**提示符 (prompt)**，它在等待你输入命令。
+这叫做**提示符 (prompt)**，它在等待你输入命令。别小看这一行字符，它其实把你的当前状态交代得很清楚：
+
+| 片段 | 含义 |
+|------|------|
+| `student` | 当前**用户名** |
+| `@` | 分隔符，读作"at" |
+| `laptop` | **主机名**——你登录的这台机器的名字（SSH 到远程服务器后会变成服务器名） |
+| `:` | 分隔符 |
+| `~` | 当前**工作目录**；`~` 是家目录的简写（`/home/student` 或 `/Users/student`） |
+| `$` | 提示符尾字符——普通用户是 `$`，root 用户是 `#`；zsh 常用 `%` |
+
+所以 `student@laptop:~$` 读作：*用户 student 正在主机 laptop 上，当前位于家目录，等待输入*。SSH 连上服务器后提示符会变成 `student@hpc-login-01:~$`，一眼就能看出自己现在在哪台机器、哪个目录——这在同时开多个窗口时非常有用。
 
 ## 2.2 什么是 Shell
 
@@ -111,6 +122,10 @@ echo $SHELL
 
 在科研中，两者通常是**互补**的：你可能会用 GUI 编辑器写代码，但用 CLI 编译、运行、调试和批量处理数据。
 
+:::info GUI 编辑器 ≠ 一般的 GUI
+上表里的"GUI"指的是**文件管理器、图形操作界面**那一类——用鼠标点图标、拖窗口。而 "GUI 编辑器" 如 VS Code 是**专门写代码的图形工具**，它内部集成了 CLI（终端面板），可以一边用鼠标编辑文本，一边在下方终端里用命令行跑代码。所以"用 GUI 编辑器写代码 + 用 CLI 运行"并不矛盾——VS Code 就是典型的一份工具同时满足两种交互方式。
+:::
+
 ### 例子：处理实验数据
 
 假设你做了 100 次实验，每次都生成一个数据文件。
@@ -160,7 +175,7 @@ ls              # 列出当前目录的文件和子目录
 ls -l           # 详细信息（权限、大小、日期）
 ls -la          # 包括隐藏文件（以 . 开头的文件）
 ls -lh          # 人类可读的文件大小（KB, MB, GB）
-ls research/    # 列出指定目录的内容
+ls research/    # 列出指定目录（research）的内容
 ```
 
 示例输出：
@@ -176,10 +191,10 @@ drwxr-xr-x 2 student student 4.0K Jan 15 10:30 data
 ### cd —— 切换目录
 
 ```bash
-cd research           # 进入 research 子目录
-cd /home/student      # 进入绝对路径指定的目录
+cd research           # 进入子目录（research）
+cd /home/student      # 进入绝对路径指定的目录（/home/student）
 cd ..                 # 返回上一级目录
-cd ~                  # 回到家目录
+cd ~                  # 回到家（Home）目录
 cd -                  # 回到上一次所在的目录
 ```
 
@@ -199,17 +214,17 @@ mkdir -p project/src/utils        # 创建多级嵌套目录（-p 自动创建�
 ### cp —— 复制文件或目录
 
 ```bash
-cp file1.txt file2.txt            # 复制文件
-cp file.txt backup/               # 复制到另一个目录
-cp -r src_dir/ dest_dir/          # 复制整个目录（需要 -r）
+cp file1.txt file2.txt            # 将 file1.txt 复制一份为 file2.txt
+cp file.txt backup/               # 复制 file.txt 到另一个目录（backup）
+cp -r src_dir/ dest_dir/          # 将 src_dir 及其全部子目录、文件递归复制到 dest_dir（-r = recursive）
 ```
 
 ### mv —— 移动或重命名
 
 ```bash
-mv old_name.py new_name.py        # 重命名文件
-mv data.csv results/              # 移动文件到另一个目录
-mv *.py scripts/                  # 移动所有 .py 文件
+mv old_name.py new_name.py        # 重命名文件（把 old_name.py 改名为 new_name.py）
+mv data.csv results/              # 移动文件 data.csv 到另一个目录（results）
+mv *.py scripts/                  # 移动所有以 .py 为扩展名的文件到另一个目录（scripts）
 ```
 
 ### rm —— 删除文件或目录
@@ -224,6 +239,45 @@ rm -i important_file.txt          # 删除前确认（推荐）
 `rm` 删除的文件**不会**进入回收站，几乎无法恢复。使用 `rm -r` 时一定要仔细检查路径。
 
 **永远不要执行 `rm -rf /` 或 `rm -rf ~`**，这会删除整个系统或你的所有文件。
+:::
+
+### 终端内的光标、历史与补全
+
+新手最大的困惑之一是：**为什么在终端里不能像在 Word 里那样用鼠标点到某个位置修改？** 终端的光标几乎全靠键盘操作，但一旦熟悉这些快捷键，编辑命令会比图形编辑器还快。
+
+**光标移动与编辑：**
+
+| 快捷键 | 作用 |
+|--------|------|
+| `Ctrl + A` | 跳到行首 |
+| `Ctrl + E` | 跳到行尾 |
+| `Alt + B` / `Alt + F` | 按"词"向前 / 向后跳（Mac 上可能是 `Esc + B/F`） |
+| `Ctrl + U` | 删除光标左侧到行首的全部内容 |
+| `Ctrl + K` | 删除光标右侧到行尾的全部内容 |
+| `Ctrl + W` | 删除光标左侧一个词 |
+| `Ctrl + L` | 清屏（等价于 `clear`） |
+| `Ctrl + C` | 中断当前输入或正在运行的命令 |
+| `Ctrl + D` | 在空行上按：退出当前 Shell |
+
+想修改刚输入长命令的开头？不用按几十次 `←`——`Ctrl + A` 一步到位。
+
+**历史命令：**
+
+| 快捷键 / 命令 | 作用 |
+|---------------|------|
+| `↑` / `↓` | 上下翻看历史命令 |
+| `Ctrl + R` | 反向搜索历史（输入关键词会模糊匹配） |
+| `!!` | 重复上一条命令 |
+| `!grep` | 重复最近一条以 `grep` 开头的命令 |
+| `history` | 列出命令历史 |
+
+:::tip Tab 补全是最重要的快捷键
+输入命令或路径时按 **Tab**：Shell 会自动补全文件名、目录名、命令名。
+
+- 按一次：唯一匹配时直接补全
+- 按两次：列出所有可能的匹配
+
+这个习惯能让你少打 80% 的字符，还能避免拼错文件名。
 :::
 
 ### 实用组合示例
@@ -281,10 +335,21 @@ tail -f output.log
 ### 通配符 (Wildcards)
 
 ```bash
-ls *.py                    # 所有 .py 文件
-ls data_?.csv              # data_1.csv, data_2.csv, ... (? 匹配单个字符)
-ls result_[0-9]*.dat       # result_0.dat, result_123.dat, ...
+ls *.py                    # 所有 .py 文件（* 匹配任意字符，包括空）
+ls data_?.csv              # data_1.csv, data_2.csv ...（? 匹配"恰好一个"任意字符）
+ls result_[0-9]*.dat       # result_0.dat, result_123.dat ...
+                           # [0-9] 匹配"恰好一个"数字字符；紧随其后的 * 匹配任意字符
+                           # 所以整体 = 以 result_ 开头、紧跟一个数字、后面可有任意字符、以 .dat 结尾
 ```
+
+三者的关键区别：
+
+| 模式 | 含义 | 匹配例子 |
+|------|------|---------|
+| `*` | 任意多个（含 0 个）任意字符 | `a`, `abc`, `` |
+| `?` | 恰好 1 个任意字符 | `a`, `1`，但不匹配 `ab` |
+| `[0-9]` | 恰好 1 个在指定范围内的字符 | `3`，但不匹配 `a` |
+| `[0-9]*` | 1 个数字 + 任意字符 | `3abc`, `7` |
 
 ### find —— 按条件查找文件
 
@@ -589,6 +654,38 @@ A：安装 WSL 后，你可以在 Windows 上使用 bash。本教程后续章节
 5. 列出 `physics_lab/` 下所有文件和目录（递归）
 6. 删除整个 `physics_lab/` 目录
 
+<details>
+<summary>参考答案</summary>
+
+```bash
+# 1. 一条命令创建三个同级子目录（花括号展开）
+mkdir -p physics_lab/experiment_01/{raw_data,analysis,plots}
+
+# 2. 进入 raw_data 后批量创建空文件
+cd physics_lab/experiment_01/raw_data
+touch run_1.dat run_2.dat run_3.dat
+# 也可以用花括号范围展开：touch run_{1..3}.dat
+# {N1..N2} 生成起点为 N1、步长为 1、终点为 N2 的序列
+
+# 3. 复制
+cp run_1.dat run_1_backup.dat
+
+# 4. 移动到上级的 analysis/
+mv run_3.dat ../analysis/
+
+# 5. 回到家目录后用 find 递归列出
+cd ~
+find physics_lab
+# 或者直接在任意目录：ls -R physics_lab/
+
+# 6. 递归删除整个目录
+rm -r physics_lab/
+```
+
+注意：`cp` 是复制，`mv` 是移动——第 3 题用 `cp`（保留原文件），第 4 题用 `mv`（原位置不再保留）。
+
+</details>
+
 ### 练习 2.2：grep 实战
 
 创建一个文件 `energies.log`，包含以下内容：
@@ -610,11 +707,51 @@ INFO: convergence reached
 3. 统计包含 "Energy" 的行数
 4. 提取最后一步的能量值
 
+<details>
+<summary>参考答案</summary>
+
+```bash
+# 1. 直接搜索关键词
+grep "Energy" energies.log
+
+# 2. 用扩展正则 -E，| 表示"或"
+grep -E "WARNING|ERROR" energies.log
+# 也可以：grep -e "WARNING" -e "ERROR" energies.log
+
+# 3. 统计匹配行数，两种等价写法
+grep -c "Energy" energies.log
+grep "Energy" energies.log | wc -l
+
+# 4. 先过滤出 Energy 行，再取最后一行
+grep "Energy" energies.log | tail -1
+# 注意：管道符号是 | （ASCII 竖线），不是中文全角的 ｜
+```
+
+</details>
+
 ### 练习 2.3：管道组合
 
 1. 使用一行命令统计当前目录及子目录中有多少个 `.py` 文件
 2. 列出当前目录中最大的 5 个文件
 3. 查看你的 PATH 中有多少个目录（提示：`echo $PATH | tr ':' '\n' | wc -l`）
+
+<details>
+<summary>参考答案</summary>
+
+```bash
+# 1. find 输出每个文件一行，wc -l 数行数
+find . -name "*.py" | wc -l
+
+# 2. du -sh 列出各项占用空间，sort -rh 按"人类可读大小"从大到小排序，head 取前 N 个
+du -sh * | sort -rh | head -5
+
+# 3. PATH 用 : 分隔，用 tr 把 : 换成换行，再 wc -l 数行
+echo $PATH | tr ':' '\n' | wc -l
+```
+
+这三题体现了管道的核心思路：**每个命令只做一件事，用管道串起来完成复杂任务**——`find` 负责找，`wc` 负责数；`du` 负责算大小，`sort` 负责排序，`head` 负责取前几。
+
+</details>
 
 ### 练习 2.4：命令探索
 
@@ -623,3 +760,28 @@ INFO: convergence reached
 1. `ls` 的哪个选项可以按修改时间排序？
 2. `grep` 的哪个选项可以只显示匹配的文件名而不显示具体内容？
 3. `find` 如何查找空目录？
+
+<details>
+<summary>参考答案</summary>
+
+```bash
+# 1. -t 按修改时间排序（最新在前）；配合 -r 可反转顺序
+ls -t
+ls -lt        # 同时显示详细信息
+ls -tr        # 最旧在前
+
+# 2. -l 只列出含匹配内容的文件名
+grep -l "pattern" *.py
+
+# 3. -empty 筛选空文件或空目录，配合 -type d 只保留目录
+find . -type d -empty
+```
+
+查文档的正规姿势：
+
+```bash
+man ls | grep -A1 -- '-t'    # 在 man 里定位到 -t 选项的说明
+grep --help | less           # 浏览完整帮助
+```
+
+</details>
