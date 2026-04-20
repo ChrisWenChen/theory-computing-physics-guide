@@ -387,33 +387,18 @@ main.py → Read config.yaml → Create IsingModel → Run MC → Output results
 
 Here is the recommended step-by-step reading process:
 
-```
-Step 1: Read README and documentation
-    │   Understand what the project does and how to use it
-    ▼
-Step 2: Look at directory structure
-    │   Build an overall impression of the project
-    ▼
-Step 3: Read dependencies and build configuration
-    │   Understand the tech stack and how to run it
-    ▼
-Step 4: Find the entry file
-    │   Determine where the program starts executing
-    ▼
-Step 5: Trace the main flow
-    │   Follow the call chain from the entry point
-    ▼
-Step 6: Read tests and examples
-    │   Understand expected behavior and usage patterns
-    ▼
-Step 7: Dive into key modules
-    │   Focus on core algorithms and data structures
-    ▼
-Step 8: Take notes, record questions
-    │   Organize understanding, mark things you don't understand
-    ▼
-Step 9: Try modifying and running
-        Verify your understanding through hands-on work
+```mermaid
+flowchart TD
+    S1["<b>Step 1 · Read README and docs</b><br/><small>Understand what the project does and how to use it</small>"]
+    S2["<b>Step 2 · Look at directory structure</b><br/><small>Build an overall impression of the project</small>"]
+    S3["<b>Step 3 · Read dependencies and build config</b><br/><small>Understand the tech stack and how to run it</small>"]
+    S4["<b>Step 4 · Find the entry file</b><br/><small>Determine where the program starts executing</small>"]
+    S5["<b>Step 5 · Trace the main flow</b><br/><small>Follow the call chain from the entry point</small>"]
+    S6["<b>Step 6 · Read tests and examples</b><br/><small>Understand expected behavior and usage patterns</small>"]
+    S7["<b>Step 7 · Dive into key modules</b><br/><small>Focus on core algorithms and data structures</small>"]
+    S8["<b>Step 8 · Take notes, record questions</b><br/><small>Organize understanding, mark open questions</small>"]
+    S9["<b>Step 9 · Try modifying and running</b><br/><small>Verify your understanding through hands-on work</small>"]
+    S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9
 ```
 
 :::tip Golden Rule
@@ -428,25 +413,23 @@ AI Agents (such as Claude Code, OpenCode — see Chapter 19) can significantly a
 
 ### Typical Usage
 
+Start the Agent in the project directory:
+
 ```bash
 cd ~/research/some_project
 claude
+```
 
-# Have the Agent analyze the project structure
-> Analyze the directory structure of this project —
-> what does each folder and main file do?
+Then progress through these four question types, from broad to deep:
 
-# Understand core algorithms
-> Explain the conjugate_gradient function in src/solver.f90 in detail,
-> using language a physicist can understand
-
-# Trace data flow
-> Starting from main.py, how does input data get processed
-> step by step into the final results?
-
-# Find key parameters
-> Where are all the physical parameters (temperature, coupling constants, etc.)
-> defined in this project? How do I modify them?
+```mermaid
+flowchart TB
+    Agent(["🤖 AI Agent<br/>running in the project directory"])
+    U1["<b>① Analyze project structure</b><br/><small>“Analyze this project's directory structure — what does each folder and main file do?”</small>"]
+    U2["<b>② Explain core algorithms</b><br/><small>“Explain conjugate_gradient in src/solver.f90 in detail, in language a physicist can understand.”</small>"]
+    U3["<b>③ Trace data flow</b><br/><small>“Starting from main.py, how does input data get processed step by step into the final result?”</small>"]
+    U4["<b>④ Locate key parameters</b><br/><small>“Where are all the physical parameters (temperature, couplings, etc.) defined? How do I modify them?”</small>"]
+    Agent --> U1 --> U2 --> U3 --> U4
 ```
 
 ### Combining Agent with Traditional Reading

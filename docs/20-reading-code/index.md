@@ -387,33 +387,18 @@ main.py → 读取 config.yaml → 创建 IsingModel → 运行 MC → 输出结
 
 以下是推荐的 step-by-step 阅读流程：
 
-```
-Step 1: 读 README 和文档
-    │   了解项目做什么、怎么用
-    ▼
-Step 2: 看目录结构
-    │   建立项目的整体印象
-    ▼
-Step 3: 读依赖和构建配置
-    │   了解技术栈和运行方式
-    ▼
-Step 4: 找入口文件
-    │   确定程序从哪里开始执行
-    ▼
-Step 5: 跟踪主流程
-    │   从入口出发，沿着调用链往下读
-    ▼
-Step 6: 读测试和示例
-    │   理解预期行为和使用方式
-    ▼
-Step 7: 深入关键模块
-    │   聚焦核心算法和数据结构
-    ▼
-Step 8: 做笔记，记录疑问
-    │   整理理解，标记不懂的地方
-    ▼
-Step 9: 尝试修改和运行
-        通过动手验证你的理解
+```mermaid
+flowchart TD
+    S1["<b>Step 1 · 读 README 和文档</b><br/><small>了解项目做什么、怎么用</small>"]
+    S2["<b>Step 2 · 看目录结构</b><br/><small>建立项目的整体印象</small>"]
+    S3["<b>Step 3 · 读依赖和构建配置</b><br/><small>了解技术栈和运行方式</small>"]
+    S4["<b>Step 4 · 找入口文件</b><br/><small>确定程序从哪里开始执行</small>"]
+    S5["<b>Step 5 · 跟踪主流程</b><br/><small>从入口出发，沿着调用链往下读</small>"]
+    S6["<b>Step 6 · 读测试和示例</b><br/><small>理解预期行为和使用方式</small>"]
+    S7["<b>Step 7 · 深入关键模块</b><br/><small>聚焦核心算法和数据结构</small>"]
+    S8["<b>Step 8 · 做笔记，记录疑问</b><br/><small>整理理解，标记不懂的地方</small>"]
+    S9["<b>Step 9 · 尝试修改和运行</b><br/><small>通过动手验证你的理解</small>"]
+    S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9
 ```
 
 :::tip 黄金法则
@@ -428,23 +413,23 @@ AI Agent（如 Claude Code、OpenCode，详见第 19 章）可以大幅加速代
 
 ### 典型用法
 
+在项目目录下启动 Agent：
+
 ```bash
 cd ~/research/some_project
 claude
+```
 
-# 让 Agent 分析项目结构
-> 分析一下这个项目的目录结构，每个文件夹和主要文件的作用是什么
+然后按以下四类问题推进，由浅入深：
 
-# 理解核心算法
-> 详细解释 src/solver.f90 中的 conjugate_gradient 函数，
-> 用物理人能理解的语言
-
-# 追踪数据流
-> 从 main.py 出发，输入数据是怎么一步步经过处理变成最终结果的
-
-# 找到关键参数
-> 这个项目中所有的物理参数（温度、耦合常数等）在哪里定义的？
-> 怎么修改它们？
+```mermaid
+flowchart TB
+    Agent(["🤖 AI Agent<br/>在项目目录运行"])
+    U1["<b>① 分析项目结构</b><br/><small>「分析这个项目的目录结构，每个文件夹和主要文件的作用是什么」</small>"]
+    U2["<b>② 理解核心算法</b><br/><small>「详细解释 src/solver.f90 中的 conjugate_gradient 函数，用物理人能理解的语言」</small>"]
+    U3["<b>③ 追踪数据流</b><br/><small>「从 main.py 出发，输入数据是怎么一步步经过处理变成最终结果的」</small>"]
+    U4["<b>④ 定位关键参数</b><br/><small>「这个项目中所有的物理参数（温度、耦合常数等）在哪里定义？怎么修改？」</small>"]
+    Agent --> U1 --> U2 --> U3 --> U4
 ```
 
 ### Agent 与传统阅读的配合
